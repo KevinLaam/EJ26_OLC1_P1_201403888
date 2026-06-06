@@ -1,0 +1,92 @@
+package analizadores;
+
+terminal FUNC, MAIN, VAR;
+terminal IF, ELSE, FOR, BREAK, CONTINUE;
+
+terminal INT, FLOAT64, STRING, BOOL, RUNE;
+terminal TRUE, FALSE, NIL;
+
+terminal PRINTLN, ATOI, PARSEFLOAT, TYPEOF, DOTSTRING;
+
+terminal DECLARACION, MAS_IGUAL, MENOS_IGUAL;
+terminal IGUAL, MAS, MENOS, POR, DIV, MOD;
+terminal IGUAL_IGUAL, DIFERENTE, MENOR, MENOR_IGUAL, MAYOR, MAYOR_IGUAL;
+terminal AND, OR, NOT;
+terminal UMENOS;
+
+terminal PAR_A, PAR_C, LLAVE_A, LLAVE_C;
+terminal COMA, PUNTO_COMA, PUNTO;
+
+terminal String ID;
+terminal String CADENA;
+terminal String CARACTER;
+terminal Integer ENTERO;
+terminal Double DECIMAL;
+
+non terminal inicio, funcion_main, instrucciones, instruccion;
+non terminal declaracion, impresion, expresion, tipo;
+
+precedence left OR;
+precedence left AND;
+precedence left IGUAL_IGUAL, DIFERENTE;
+precedence left MENOR, MENOR_IGUAL, MAYOR, MAYOR_IGUAL;
+precedence left MAS, MENOS;
+precedence left POR, DIV, MOD;
+precedence right NOT;
+precedence right UMENOS;
+
+start with inicio;
+
+inicio ::= funcion_main;
+
+funcion_main ::= FUNC MAIN PAR_A PAR_C LLAVE_A instrucciones LLAVE_C;
+
+instrucciones ::= instrucciones instruccion
+                |
+                ;
+
+instruccion ::= declaracion
+              | impresion
+              | BREAK
+              | CONTINUE
+              ;
+
+declaracion ::= VAR ID tipo IGUAL expresion
+              | VAR ID tipo
+              | ID DECLARACION expresion
+              ;
+
+tipo ::= INT
+       | FLOAT64
+       | STRING
+       | BOOL
+       | RUNE
+       ;
+
+impresion ::= PRINTLN PAR_A expresion PAR_C;
+
+expresion ::= ENTERO
+            | DECIMAL
+            | CADENA
+            | CARACTER
+            | TRUE
+            | FALSE
+            | NIL
+            | ID
+            | expresion MAS expresion
+            | expresion MENOS expresion
+            | expresion POR expresion
+            | expresion DIV expresion
+            | expresion MOD expresion
+            | expresion IGUAL_IGUAL expresion
+            | expresion DIFERENTE expresion
+            | expresion MENOR expresion
+            | expresion MENOR_IGUAL expresion
+            | expresion MAYOR expresion
+            | expresion MAYOR_IGUAL expresion
+            | expresion AND expresion
+            | expresion OR expresion
+            | NOT expresion
+            | MENOS expresion %prec UMENOS
+            | PAR_A expresion PAR_C
+            ;
