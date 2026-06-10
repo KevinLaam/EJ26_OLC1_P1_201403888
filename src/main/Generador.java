@@ -19,6 +19,8 @@ public class Generador {
                 "sym",
                 "-destdir",
                 "src/analizadores",
+                "-package",
+                "analizadores",
                 "src/analizadores/Parser.cup"
             };
 

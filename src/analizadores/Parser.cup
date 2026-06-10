@@ -1,4 +1,6 @@
-package analizadores;
+import java.util.LinkedList;
+import ast.Instruccion;
+import instrucciones.Declaracion;
 
 terminal FUNC, MAIN, VAR;
 terminal IF, ELSE, FOR, BREAK, CONTINUE;
@@ -23,8 +25,10 @@ terminal String CARACTER;
 terminal Integer ENTERO;
 terminal Double DECIMAL;
 
-non terminal inicio, funcion_main, instrucciones, instruccion;
-non terminal declaracion, impresion, expresion, tipo;
+non terminal LinkedList<Instruccion> inicio, funcion_main, instrucciones;
+non terminal Instruccion instruccion, declaracion, impresion;
+non terminal Object expresion;
+non terminal String tipo;
 
 precedence left OR;
 precedence left AND;
@@ -37,56 +41,84 @@ precedence right UMENOS;
 
 start with inicio;
 
-inicio ::= funcion_main;
+inicio ::= funcion_main:fm
+        {: RESULT = fm; :}
+        ;
 
-funcion_main ::= FUNC MAIN PAR_A PAR_C LLAVE_A instrucciones LLAVE_C;
-
-instrucciones ::= instrucciones instruccion
-                |
-                ;
-
-instruccion ::= declaracion
-              | impresion
-              | BREAK
-              | CONTINUE
+funcion_main ::= FUNC MAIN PAR_A PAR_C LLAVE_A instrucciones:ins LLAVE_C
+              {: RESULT = ins; :}
               ;
 
-declaracion ::= VAR ID tipo IGUAL expresion
-              | VAR ID tipo
-              | ID DECLARACION expresion
+instrucciones ::= instrucciones:lista instruccion:ins
+                {:
+                    lista.add(ins);
+                    RESULT = lista;
+                :}
+                |
+                {:
+                    RESULT = new LinkedList<Instruccion>();
+                :}
+                ;
+
+instruccion ::= declaracion:d
+              {: RESULT = d; :}
+              | impresion:i
+              {: RESULT = i; :}
+              | BREAK
+              {: RESULT = null; :}
+              | CONTINUE
+              {: RESULT = null; :}
+              ;
+
+declaracion ::= VAR ID:id tipo:t IGUAL expresion:e
+              {:
+                  RESULT = new Declaracion(id, t, e);
+              :}
+              | VAR ID:id tipo:t
+              {:
+                  RESULT = new Declaracion(id, t, null);
+              :}
+              | ID:id DECLARACION expresion:e
+              {:
+                  String tipoInferido = "desconocido";
+
+                  if (e instanceof Integer) tipoInferido = "int";
+                  else if (e instanceof Double) tipoInferido = "float64";
+                  else if (e instanceof String) tipoInferido = "string";
+                  else if (e instanceof Boolean) tipoInferido = "bool";
+
+                  RESULT = new Declaracion(id, tipoInferido, e);
+              :}
               ;
 
 tipo ::= INT
+       {: RESULT = "int"; :}
        | FLOAT64
+       {: RESULT = "float64"; :}
        | STRING
+       {: RESULT = "string"; :}
        | BOOL
+       {: RESULT = "bool"; :}
        | RUNE
+       {: RESULT = "rune"; :}
        ;
 
 impresion ::= PRINTLN PAR_A expresion PAR_C;
 
-expresion ::= ENTERO
-            | DECIMAL
-            | CADENA
-            | CARACTER
+expresion ::= ENTERO:e
+            {: RESULT = e; :}
+            | DECIMAL:e
+            {: RESULT = e; :}
+            | CADENA:e
+            {: RESULT = e; :}
+            | CARACTER:e
+            {: RESULT = e; :}
             | TRUE
+            {: RESULT = true; :}
             | FALSE
+            {: RESULT = false; :}
             | NIL
-            | ID
-            | expresion MAS expresion
-            | expresion MENOS expresion
-            | expresion POR expresion
-            | expresion DIV expresion
-            | expresion MOD expresion
-            | expresion IGUAL_IGUAL expresion
-            | expresion DIFERENTE expresion
-            | expresion MENOR expresion
-            | expresion MENOR_IGUAL expresion
-            | expresion MAYOR expresion
-            | expresion MAYOR_IGUAL expresion
-            | expresion AND expresion
-            | expresion OR expresion
-            | NOT expresion
-            | MENOS expresion %prec UMENOS
-            | PAR_A expresion PAR_C
+            {: RESULT = null; :}
+            | ID:id
+            {: RESULT = id; :}
             ;
