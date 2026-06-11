@@ -68,7 +68,7 @@ COMENTARIO_MULTI = "/*"([^*]|\*+[^*/])*\*+"/"
 "strconv.Atoi"              { return symbol(sym.ATOI); }
 "strconv.ParseFloat"        { return symbol(sym.PARSEFLOAT); }
 "reflect.TypeOf"            { return symbol(sym.TYPEOF); }
-".string"                   { return symbol(sym.DOTSTRING); }
+".String"                   { return symbol(sym.DOTSTRING); }
 
 /* ---------- OPERADORES COMPUESTOS ---------- */
 
@@ -113,8 +113,16 @@ COMENTARIO_MULTI = "/*"([^*]|\*+[^*/])*\*+"/"
 {DECIMAL}           { return symbol(sym.DECIMAL, Double.parseDouble(yytext())); }
 {ENTERO}            { return symbol(sym.ENTERO, Integer.parseInt(yytext())); }
 
-{CADENA}            { return symbol(sym.CADENA, yytext()); }
-{CARACTER}          { return symbol(sym.CARACTER, yytext()); }
+{CADENA}            {
+                        String texto = yytext();
+                        texto = texto.substring(1, texto.length() - 1);
+                        return symbol(sym.CADENA, texto);
+                    }
+{CARACTER}          {
+                        String texto = yytext();
+                        texto = texto.substring(1, texto.length() - 1);
+                        return symbol(sym.CARACTER, texto);
+                    }
 
 /* ---------- IDENTIFICADORES ---------- */
 

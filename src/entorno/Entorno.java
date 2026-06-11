@@ -23,4 +23,16 @@ public class Entorno {
     public Simbolo buscar(String id){
         return tabla.get(id);
     }
+    //para el for
+    public boolean actualizar(String id, Object nuevoValor) {
+
+    Simbolo simbolo = tabla.get(id);
+
+        if (simbolo == null) {
+            return false;
+        }
+
+        simbolo.setValor(nuevoValor);
+        return true;
+    }
 }

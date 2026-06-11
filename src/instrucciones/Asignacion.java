@@ -4,40 +4,45 @@ import ast.Instruccion;
 import entorno.Entorno;
 import entorno.Simbolo;
 
-public class Declaracion extends Instruccion {
+public class Asignacion extends Instruccion {
 
     private String id;
-    private String tipo;
     private Object valor;
 
-    public Declaracion(String id, String tipo, Object valor) {
+    public Asignacion(String id, Object valor) {
         this.id = id;
-        this.tipo = tipo;
         this.valor = valor;
     }
 
     @Override
     public Object ejecutar(Entorno entorno) {
-        
+
+        Simbolo simbolo = entorno.buscar(id);
+
+        if (simbolo == null) {
+            System.out.println("Error semantico: la variable " + id + " no existe");
+            return null;
+        }
+
         Object valorFinal = valor;
-        
-            if (valor instanceof Instruccion) {
+
+        if (valor instanceof Instruccion) {
             valorFinal = ((Instruccion) valor).ejecutar(entorno);
-            }
-        
-            if (!validarTipo(tipo, valorFinal)) {
+        }
+
+        if (!validarTipo(simbolo.getTipo(), valorFinal)) {
             System.out.println(
-                "Error semantico: No se puede asignar un valor de tipo "
+                "Error semantico: no se puede asignar un valor de tipo "
                 + obtenerTipo(valorFinal)
-                + " a una variable de tipo "
-                + tipo
+                + " a la variable "
+                + id
+                + " de tipo "
+                + simbolo.getTipo()
             );
             return null;
         }
 
-        Simbolo simbolo = new Simbolo(id, tipo, valorFinal);
-
-        entorno.guardar(simbolo);
+        entorno.actualizar(id, valorFinal);
 
         return null;
     }

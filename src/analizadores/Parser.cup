@@ -1,6 +1,16 @@
 import java.util.LinkedList;
 import ast.Instruccion;
 import instrucciones.Declaracion;
+import instrucciones.Println;
+import expresiones.AccVariable;
+import expresiones.Operacion;
+import instrucciones.If;
+import instrucciones.Asignacion;
+import instrucciones.For;
+import instrucciones.Break;
+import instrucciones.Continue;
+import instrucciones.Compuesta;
+import instrucciones.FuncionNativa;
 
 terminal FUNC, MAIN, VAR;
 terminal IF, ELSE, FOR, BREAK, CONTINUE;
@@ -29,6 +39,8 @@ non terminal LinkedList<Instruccion> inicio, funcion_main, instrucciones;
 non terminal Instruccion instruccion, declaracion, impresion;
 non terminal Object expresion;
 non terminal String tipo;
+non terminal Instruccion if_instr;
+non terminal Instruccion for_instr;
 
 precedence left OR;
 precedence left AND;
@@ -61,14 +73,39 @@ instrucciones ::= instrucciones:lista instruccion:ins
                 ;
 
 instruccion ::= declaracion:d
-              {: RESULT = d; :}
+                {: RESULT = d; :}
               | impresion:i
-              {: RESULT = i; :}
+                {: RESULT = i; :}
+              | if_instr:i
+                {: RESULT = i; :}
+              | for_instr:f
+                {: RESULT = f; :}  
               | BREAK
-              {: RESULT = null; :}
+                {: RESULT = new Break(); :}
               | CONTINUE
-              {: RESULT = null; :}
+                {: RESULT = new Continue(); :}
               ;
+
+if_instr ::= IF PAR_A expresion:condicion PAR_C
+             LLAVE_A instrucciones:ins LLAVE_C
+             {:
+                RESULT = new If(condicion, ins, null);
+             :}
+           | IF PAR_A expresion:condicion PAR_C
+             LLAVE_A instrucciones:ins_if LLAVE_C
+             ELSE
+             LLAVE_A instrucciones:ins_else LLAVE_C
+             {:
+                RESULT = new If(condicion, ins_if, ins_else);
+             :}
+           ;
+
+for_instr ::= FOR declaracion:inicio PUNTO_COMA expresion:condicion PUNTO_COMA declaracion:actualizacion
+              LLAVE_A instrucciones:ins LLAVE_C
+              {:
+                  RESULT = new For(inicio, condicion, actualizacion, ins);
+              :}
+            ;
 
 declaracion ::= VAR ID:id tipo:t IGUAL expresion:e
               {:
@@ -89,7 +126,20 @@ declaracion ::= VAR ID:id tipo:t IGUAL expresion:e
 
                   RESULT = new Declaracion(id, tipoInferido, e);
               :}
-              ;
+                | ID:id IGUAL expresion:e
+              {:
+                  RESULT = new Asignacion(id, e);
+              :}
+              | ID:id MAS_IGUAL expresion:e
+              {:
+                  RESULT = new Compuesta(id, e, "+");
+              :}
+
+              | ID:id MENOS_IGUAL expresion:e
+              {:
+                  RESULT = new Compuesta(id, e, "-");
+              :}
+                  ;
 
 tipo ::= INT
        {: RESULT = "int"; :}
@@ -103,22 +153,99 @@ tipo ::= INT
        {: RESULT = "rune"; :}
        ;
 
-impresion ::= PRINTLN PAR_A expresion PAR_C;
+impresion ::= PRINTLN PAR_A expresion:e PAR_C
+            {:
+                RESULT = new Println(e);
+            :}
+            ;
 
-expresion ::= ENTERO:e
+expresion ::= expresion:e1 MAS expresion:e2
+            {: RESULT = new Operacion(e1, e2, "+"); :}
+
+            | expresion:e1 MENOS expresion:e2
+            {: RESULT = new Operacion(e1, e2, "-"); :}
+
+            | expresion:e1 POR expresion:e2
+            {: RESULT = new Operacion(e1, e2, "*"); :}
+
+            | expresion:e1 DIV expresion:e2
+            {: RESULT = new Operacion(e1, e2, "/"); :}
+
+            | expresion:e1 MOD expresion:e2
+            {: RESULT = new Operacion(e1, e2, "%"); :}
+            
+            | expresion:e1 MAYOR expresion:e2
+            {: RESULT = new Operacion(e1, e2, ">"); :}
+
+            | expresion:e1 MENOR expresion:e2
+            {: RESULT = new Operacion(e1, e2, "<"); :}
+
+            | expresion:e1 MAYOR_IGUAL expresion:e2
+            {: RESULT = new Operacion(e1, e2, ">="); :}
+
+            | expresion:e1 MENOR_IGUAL expresion:e2
+            {: RESULT = new Operacion(e1, e2, "<="); :}
+
+            | expresion:e1 IGUAL_IGUAL expresion:e2
+            {: RESULT = new Operacion(e1, e2, "=="); :}
+
+            | expresion:e1 DIFERENTE expresion:e2
+            {: RESULT = new Operacion(e1, e2, "!="); :}
+
+            | expresion:e1 AND expresion:e2
+            {: RESULT = new Operacion(e1, e2, "&&"); :}
+
+            | expresion:e1 OR expresion:e2
+            {: RESULT = new Operacion(e1, e2, "||"); :}
+
+            | NOT expresion:e
+            {: RESULT = new Operacion(e, null, "!"); :}
+            
+            | MENOS expresion:e
+            {: RESULT = new Operacion(0, e, "-"); :}
+            %prec UMENOS
+            
+            | PAR_A expresion:e PAR_C
             {: RESULT = e; :}
+
+            | ATOI PAR_A expresion:e PAR_C
+            {:
+                RESULT = new FuncionNativa("atoi", e);
+            :}
+
+            | PARSEFLOAT PAR_A expresion:e COMA expresion:n PAR_C
+            {:
+                RESULT = new FuncionNativa("parsefloat", e);
+            :}
+
+            | TYPEOF PAR_A expresion:e PAR_C DOTSTRING PAR_A PAR_C
+            {:
+                RESULT = new FuncionNativa("typeof", e);
+            :}
+
+            | ENTERO:e
+            {: RESULT = e; :}
+
             | DECIMAL:e
             {: RESULT = e; :}
+
             | CADENA:e
             {: RESULT = e; :}
+
             | CARACTER:e
             {: RESULT = e; :}
+
             | TRUE
             {: RESULT = true; :}
+
             | FALSE
             {: RESULT = false; :}
+
             | NIL
             {: RESULT = null; :}
+
             | ID:id
-            {: RESULT = id; :}
+            {: RESULT = new AccVariable(id); :}
+
+            
             ;
