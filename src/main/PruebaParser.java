@@ -3,67 +3,66 @@ package main;
 import analizadores.Lexer;
 import analizadores.Parser;
 import ast.Instruccion;
+import entorno.Entorno;
 import java.io.StringReader;
 import java.util.LinkedList;
-import entorno.Entorno;
+import reportes.ReporteE;
+import reportes.ReporteT;
 
 public class PruebaParser {
 
     public static void main(String[] args) {
 
-           String entrada = """
-            func main() { 
-            // Variable global 
-            i := 10 
-            z := 0 
-            // Imprime 10 
-            fmt.Println("Valor de i en el ámbito global:", i) 
-            // Bloque independiente 
-            { 
-            // Variable local al bloque 
-            j := 20 
-            // Imprime 20 
-            fmt.Println("Valor de j en el bloque independiente:", j) 
-            // Imprime 10 
-            fmt.Println("Acceso a i desde el bloque independiente:", i) 
-            } 
-            // Modifica i usando j 
-            i = i + j 
-            // Imprime 30 
-            fmt.Println("Nuevo valor de i después de modificarlo en el bloque:", i) 
-            // Variable con el mismo nombre que variable en entorno superior 
-            z := 40 
-            // Imprime 40 
-            fmt.Println("Valor de z en el bloque independiente:", z) 
-            // Imprime 0 
-            fmt.Println("Valor de z fuera del bloque independiente:", z) 
-            // Imprime 30 
-            fmt.Println("Valor de i fuera del bloque:", i)
-            // fmt.Println("Valor de j fuera del bloque:", j) 
-            // Error: j no es accesible aquí 
-            }
-            """;
+       String entrada = """
+        func main() {
+            var bandera bool = 100
+        }
+        """;
 
         try {
+            ReporteE.limpiar();
+            ReporteE.limpiar();
+            ReporteT.limpiar();
+
             Lexer lexer = new Lexer(new StringReader(entrada));
             Parser parser = new Parser(lexer);
 
+           java_cup.runtime.Symbol resultadoParser = parser.parse();
+
+            if (resultadoParser == null || resultadoParser.value == null) {
+                ReporteT.imprimir();
+                ReporteE.imprimirErrores();
+                return;
+            }
+
+            Object resultado = resultadoParser.value;
+            ReporteT.imprimir();
+            
+            if (ReporteE.hayErrores()) {
+                ReporteE.imprimirErrores();
+                return;
+            }
+
             LinkedList<Instruccion> lista =
-                    (LinkedList<Instruccion>) parser.parse().value;
+                    (LinkedList<Instruccion>) resultado;
 
             System.out.println("Analisis correcto");
             System.out.println("Cantidad instrucciones: " + lista.size());
-        
+
             Entorno global = new Entorno();
 
-            for(Instruccion ins : lista){
+            for (Instruccion ins : lista) {
                 ins.ejecutar(global);
             }
 
-            
+            ReporteE.imprimirErrores();
+
 
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Error al analizar:");
+            System.out.println(e.getMessage());
+
+            ReporteE.imprimirErrores();
         }
     }
 }

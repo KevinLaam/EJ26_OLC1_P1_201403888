@@ -26,7 +26,10 @@ public class For extends Instruccion {
     @Override
     public Object ejecutar(Entorno entorno) {
 
-        inicializacion.ejecutar(entorno);
+        //inicializacion.ejecutar(entorno);
+        if (inicializacion != null) {
+            inicializacion.ejecutar(entorno);
+        }
 
         while (true) {
 
@@ -67,7 +70,10 @@ public class For extends Instruccion {
                 }
             }
 
-            actualizacion.ejecutar(entorno);
+            //actualizacion.ejecutar(entorno);
+            if (actualizacion != null) {
+                actualizacion.ejecutar(entorno);
+            }
         }
 
         return null;

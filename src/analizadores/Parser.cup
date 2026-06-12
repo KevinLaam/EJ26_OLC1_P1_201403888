@@ -11,6 +11,37 @@ import instrucciones.Break;
 import instrucciones.Continue;
 import instrucciones.Compuesta;
 import instrucciones.FuncionNativa;
+import reportes.ReporteErrores;
+import java_cup.runtime.Symbol;
+import reportes.ReporteE;
+import reportes.Compuesta;
+
+//Para errores 
+
+parser code
+{:
+    @Override
+    public void syntax_error(java_cup.runtime.Symbol s) {
+        //ReporteE.agregarError(
+        //    "SINTACTICO",
+        //    "Error sintáctico cerca de: " + s.value,
+        //    s.left,
+        //    s.right
+        //);
+    }
+
+    @Override
+    public void unrecovered_syntax_error(java_cup.runtime.Symbol s) throws Exception {
+        ReporteE.agregarError(
+            "SINTACTICO",
+            "No se pudo recuperar del error sintáctico cerca de: " + s.value,
+            s.left,
+            s.right
+        );
+    }
+:};
+
+
 
 terminal FUNC, MAIN, VAR;
 terminal IF, ELSE, FOR, BREAK, CONTINUE;
@@ -41,6 +72,7 @@ non terminal Object expresion;
 non terminal String tipo;
 non terminal Instruccion if_instr;
 non terminal Instruccion for_instr;
+non terminal Instruccion actualizacion_for;
 
 precedence left OR;
 precedence left AND;
@@ -63,7 +95,9 @@ funcion_main ::= FUNC MAIN PAR_A PAR_C LLAVE_A instrucciones:ins LLAVE_C
 
 instrucciones ::= instrucciones:lista instruccion:ins
                 {:
-                    lista.add(ins);
+                    if (ins != null) {
+                        lista.add(ins);
+                    }
                     RESULT = lista;
                 :}
                 |
@@ -98,14 +132,59 @@ if_instr ::= IF PAR_A expresion:condicion PAR_C
              {:
                 RESULT = new If(condicion, ins_if, ins_else);
              :}
+            //error dentro del if
+             | IF PAR_A error PAR_C LLAVE_A instrucciones:ins LLAVE_C
+                {:
+                    ReporteE.agregarError(
+                        "SINTACTICO",
+                        "Condición inválida dentro del if",
+                        0,
+                        0
+                    );
+
+                    RESULT = null;
+                :}
+            | IF PAR_A error PAR_C
+                 LLAVE_A instrucciones:ins_if LLAVE_C
+                 ELSE
+                 LLAVE_A instrucciones:ins_else LLAVE_C
+                 {:
+                     ReporteE.agregarError(
+                         "SINTACTICO",
+                         "Condición inválida dentro del if",
+                         0,
+                         0
+                     );
+
+                     RESULT = null;
+                 :}
+
            ;
 
-for_instr ::= FOR declaracion:inicio PUNTO_COMA expresion:condicion PUNTO_COMA declaracion:actualizacion
-              LLAVE_A instrucciones:ins LLAVE_C
-              {:
+for_instr ::=   FOR expresion:condicion
+                LLAVE_A instrucciones:ins LLAVE_C
+                {:
+                    RESULT = new For(null, condicion, null, ins);
+                :}
+                | FOR declaracion:inicio PUNTO_COMA expresion:condicion PUNTO_COMA actualizacion_for:actualizacion
+                LLAVE_A instrucciones:ins LLAVE_C
+                {:
                   RESULT = new For(inicio, condicion, actualizacion, ins);
-              :}
+                :}
+                | FOR error LLAVE_A instrucciones:ins LLAVE_C
+                {:
+                    ReporteE.agregarError(
+                        "SINTACTICO",
+                        "Condición inválida dentro del for",
+                        0,
+                        0
+                    );
+
+                    RESULT = null;
+                :}
             ;
+
+
 
 declaracion ::= VAR ID:id tipo:t IGUAL expresion:e
               {:
@@ -139,7 +218,38 @@ declaracion ::= VAR ID:id tipo:t IGUAL expresion:e
               {:
                   RESULT = new Compuesta(id, e, "-");
               :}
-                  ;
+
+                ///produccion para error
+                | VAR ID:id tipo:t IGUAL error
+                {:
+                    ReporteE.agregarError(
+                        "SINTACTICO",
+                        "Se esperaba una expresión después del '=' en la declaración de '" + id + "'",
+                        0,
+                        0
+                    );
+
+                    RESULT = null;
+                :}
+                      ;
+
+actualizacion_for ::=
+                      ID:id MAS_IGUAL expresion:valor
+                      {:
+                          RESULT = new Compuesta(id, valor,"+");
+                      :}
+
+                    | ID:id MENOS_IGUAL expresion:valor
+                      {:
+                          RESULT = new Compuesta(id, valor,"-");
+                      :}
+
+                    | ID:id IGUAL expresion:valor
+                      {:
+                          RESULT = new Asignacion(id, valor);
+                      :}
+                ;
+
 
 tipo ::= INT
        {: RESULT = "int"; :}
@@ -156,6 +266,18 @@ tipo ::= INT
 impresion ::= PRINTLN PAR_A expresion:e PAR_C
             {:
                 RESULT = new Println(e);
+            :}
+            //para errores dentro de print.fm ejempo print(10+ )
+            | PRINTLN PAR_A error PAR_C
+            {:
+                ReporteE.agregarError(
+                    "SINTACTICO",
+                    "Expresión inválida dentro de fmt.Println",
+                    0,
+                    0
+                );
+
+                RESULT = null;
             :}
             ;
 

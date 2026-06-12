@@ -1,6 +1,8 @@
 package analizadores;
 
 import java_cup.runtime.Symbol;
+import reportes.ReporteE;
+import reportes.ReporteT;
 
 %%
 
@@ -42,91 +44,142 @@ COMENTARIO_MULTI = "/*"([^*]|\*+[^*/])*\*+"/"
 
 /* ---------- PALABRAS RESERVADAS ---------- */
 
-"func"              { return symbol(sym.FUNC); }
-"main"              { return symbol(sym.MAIN); }
-"var"               { return symbol(sym.VAR); }
+"func"              { ReporteT.agregar(yytext(), "FUNC", yyline + 1, yycolumn + 1);
+                        return symbol(sym.FUNC);}
+"main"              { ReporteT.agregar(yytext(), "MAIN", yyline + 1, yycolumn + 1);
+                        return symbol(sym.MAIN); }
+"var"               { ReporteT.agregar(yytext(), "VAR", yyline + 1, yycolumn + 1);
+                        return symbol(sym.VAR); }
 
-"if"                { return symbol(sym.IF); }
-"else"              { return symbol(sym.ELSE); }
-"for"               { return symbol(sym.FOR); }
-"break"             { return symbol(sym.BREAK); }
-"continue"          { return symbol(sym.CONTINUE); }
+"if"                { ReporteT.agregar(yytext(), "IF", yyline + 1, yycolumn + 1);
+                        return symbol(sym.IF); }
+"else"              { ReporteT.agregar(yytext(), "ELSE", yyline + 1, yycolumn + 1);
+                        return symbol(sym.ELSE); }
+"for"               { ReporteT.agregar(yytext(), "FOR", yyline + 1, yycolumn + 1);
+                        return symbol(sym.FOR); }
+"break"             { ReporteT.agregar(yytext(), "BREAK", yyline + 1, yycolumn + 1);
+                        return symbol(sym.BREAK); }
+"continue"          { ReporteT.agregar(yytext(), "CONTINUE", yyline + 1, yycolumn + 1);
+                        return symbol(sym.CONTINUE); }
 
-"int"               { return symbol(sym.INT); }
-"float64"           { return symbol(sym.FLOAT64); }
-"string"            { return symbol(sym.STRING); }
-"bool"              { return symbol(sym.BOOL); }
-"rune"              { return symbol(sym.RUNE); }
+"int"               { ReporteT.agregar(yytext(), "INT", yyline + 1, yycolumn + 1);
+                        return symbol(sym.INT); }
+"float64"           { ReporteT.agregar(yytext(), "FLOAT64", yyline + 1, yycolumn + 1);
+                        return symbol(sym.FLOAT64); }
+"string"            { ReporteT.agregar(yytext(), "STRING", yyline + 1, yycolumn + 1);
+                        return symbol(sym.STRING); }
+"bool"              { ReporteT.agregar(yytext(), "BOOL", yyline + 1, yycolumn + 1);
+                        return symbol(sym.BOOL); }
+"rune"              { ReporteT.agregar(yytext(), "RUNE", yyline + 1, yycolumn + 1);
+                        return symbol(sym.RUNE); }
 
-"true"              { return symbol(sym.TRUE, true); }
-"false"             { return symbol(sym.FALSE, false); }
-"nil"               { return symbol(sym.NIL); }
+"true"              { ReporteT.agregar(yytext(), "TRUE", yyline + 1, yycolumn + 1);
+                        return symbol(sym.TRUE); }
+"false"             { ReporteT.agregar(yytext(), "FALSE", yyline + 1, yycolumn + 1);
+                        return symbol(sym.FALSE); }
+"nil"               { ReporteT.agregar(yytext(), "NIL", yyline + 1, yycolumn + 1);
+                        return symbol(sym.NIL); }
 
 /* ---------- FUNCIONES EMBEBIDAS ---------- */
 
-"fmt.Println"               { return symbol(sym.PRINTLN); }
-"strconv.Atoi"              { return symbol(sym.ATOI); }
-"strconv.ParseFloat"        { return symbol(sym.PARSEFLOAT); }
-"reflect.TypeOf"            { return symbol(sym.TYPEOF); }
-".String"                   { return symbol(sym.DOTSTRING); }
+"fmt.Println"               { ReporteT.agregar(yytext(), "PRINTLN", yyline + 1, yycolumn + 1);
+                                return symbol(sym.PRINTLN); }
+"strconv.Atoi"              { ReporteT.agregar(yytext(), "ATOI", yyline + 1, yycolumn + 1);
+                                return symbol(sym.ATOI); }
+"strconv.ParseFloat"        { ReporteT.agregar(yytext(), "PARSEFLOAT", yyline + 1, yycolumn + 1);
+                                return symbol(sym.PARSEFLOAT); }
+"reflect.TypeOf"            { ReporteT.agregar(yytext(), "TYPEOF", yyline + 1, yycolumn + 1);
+                                return symbol(sym.TYPEOF); }
+".String"                   { ReporteT.agregar(yytext(), "DOTSTRING", yyline + 1, yycolumn + 1);
+                                return symbol(sym.DOTSTRING); }
 
 /* ---------- OPERADORES COMPUESTOS ---------- */
 
-":="                { return symbol(sym.DECLARACION); }
-"+="                { return symbol(sym.MAS_IGUAL); }
-"-="                { return symbol(sym.MENOS_IGUAL); }
+":="                { ReporteT.agregar(yytext(), "DECLARACION", yyline + 1, yycolumn + 1);
+                        return symbol(sym.DECLARACION); }
+"+="                { ReporteT.agregar(yytext(), "MAS_IGUAL", yyline + 1, yycolumn + 1);
+                        return symbol(sym.MAS_IGUAL); }
+"-="                { ReporteT.agregar(yytext(), "MENOS_IGUAL", yyline + 1, yycolumn + 1);
+                        return symbol(sym.MENOS_IGUAL); }
 
-"=="                { return symbol(sym.IGUAL_IGUAL); }
-"!="                { return symbol(sym.DIFERENTE); }
-"<="                { return symbol(sym.MENOR_IGUAL); }
-">="                { return symbol(sym.MAYOR_IGUAL); }
+"=="                { ReporteT.agregar(yytext(), "IGUAL_IGUAL", yyline + 1, yycolumn + 1);
+                        return symbol(sym.IGUAL_IGUAL); }
+"!="                { ReporteT.agregar(yytext(), "DIFERENTE", yyline + 1, yycolumn + 1);
+                        return symbol(sym.DIFERENTE); }
+"<="                { ReporteT.agregar(yytext(), "MENOR_IGUAL", yyline + 1, yycolumn + 1);
+                        return symbol(sym.MENOR_IGUAL); }
+">="                { ReporteT.agregar(yytext(), "MAYOR_IGUAL", yyline + 1, yycolumn + 1);
+                        return symbol(sym.MAYOR_IGUAL); }
 
-"&&"                { return symbol(sym.AND); }
-"||"                { return symbol(sym.OR); }
+"&&"                { ReporteT.agregar(yytext(), "AND", yyline + 1, yycolumn + 1);
+                        return symbol(sym.AND); }
+"||"                { ReporteT.agregar(yytext(), "OR", yyline + 1, yycolumn + 1);
+                        return symbol(sym.OR); }
 
 /* ---------- OPERADORES SIMPLES ---------- */
 
-"="                 { return symbol(sym.IGUAL); }
-"+"                 { return symbol(sym.MAS); }
-"-"                 { return symbol(sym.MENOS); }
-"*"                 { return symbol(sym.POR); }
-"/"                 { return symbol(sym.DIV); }
-"%"                 { return symbol(sym.MOD); }
+"="                 { ReporteT.agregar(yytext(), "IGUAL", yyline + 1, yycolumn + 1);
+                        return symbol(sym.IGUAL); }
+"+"                 { ReporteT.agregar(yytext(), "MAS", yyline + 1, yycolumn + 1);
+                        return symbol(sym.MAS); }
+"-"                 { ReporteT.agregar(yytext(), "MENOS", yyline + 1, yycolumn + 1);
+                        return symbol(sym.MENOS); }
+"*"                 { ReporteT.agregar(yytext(), "POR", yyline + 1, yycolumn + 1);
+                        return symbol(sym.POR); }
+"/"                 { ReporteT.agregar(yytext(), "DIV", yyline + 1, yycolumn + 1);
+                        return symbol(sym.DIV); }
+"%"                 { ReporteT.agregar(yytext(), "MOD", yyline + 1, yycolumn + 1);
+                        return symbol(sym.MOD); }
 
-"!"                 { return symbol(sym.NOT); }
-"<"                 { return symbol(sym.MENOR); }
-">"                 { return symbol(sym.MAYOR); }
+"!"                 { ReporteT.agregar(yytext(), "NOT", yyline + 1, yycolumn + 1);
+                        return symbol(sym.NOT); }
+"<"                 { ReporteT.agregar(yytext(), "MENOR", yyline + 1, yycolumn + 1);
+                        return symbol(sym.MENOR); }
+">"                 { ReporteT.agregar(yytext(), "MAYOR", yyline + 1, yycolumn + 1);
+                        return symbol(sym.MAYOR); }
 
 /* ---------- SIGNOS ---------- */
 
-"("                 { return symbol(sym.PAR_A); }
-")"                 { return symbol(sym.PAR_C); }
-"{"                 { return symbol(sym.LLAVE_A); }
-"}"                 { return symbol(sym.LLAVE_C); }
+"("                 { ReporteT.agregar(yytext(), "PAR_A", yyline + 1, yycolumn + 1);
+                        return symbol(sym.PAR_A); }
+")"                 { ReporteT.agregar(yytext(), "PAR_C", yyline + 1, yycolumn + 1);
+                        return symbol(sym.PAR_C); }
+"{"                 { ReporteT.agregar(yytext(), "LLAVE_A", yyline + 1, yycolumn + 1);
+                        return symbol(sym.LLAVE_A); }
+"}"                 { ReporteT.agregar(yytext(), "LLAVE_C", yyline + 1, yycolumn + 1);
+                        return symbol(sym.LLAVE_C); }
 
-","                 { return symbol(sym.COMA); }
-";"                 { return symbol(sym.PUNTO_COMA); }
-"."                 { return symbol(sym.PUNTO); }
+","                 { ReporteT.agregar(yytext(), "COMA", yyline + 1, yycolumn + 1);
+                        return symbol(sym.COMA); }
+";"                 { ReporteT.agregar(yytext(), "PUNTO_COMA", yyline + 1, yycolumn + 1);
+                        return symbol(sym.PUNTO_COMA); }
+"."                 { ReporteT.agregar(yytext(), "PUNTO", yyline + 1, yycolumn + 1);
+                        return symbol(sym.PUNTO); }
 
 /* ---------- LITERALES ---------- */
 
-{DECIMAL}           { return symbol(sym.DECIMAL, Double.parseDouble(yytext())); }
-{ENTERO}            { return symbol(sym.ENTERO, Integer.parseInt(yytext())); }
+{DECIMAL}           { ReporteT.agregar(yytext(), "DECIMAL", yyline + 1, yycolumn + 1);
+                        return symbol(sym.DECIMAL, Double.parseDouble(yytext())); }
+{ENTERO}            { ReporteT.agregar(yytext(), "ENTERO", yyline + 1, yycolumn + 1);
+                        return symbol(sym.ENTERO, Integer.parseInt(yytext())); }
 
 {CADENA}            {
                         String texto = yytext();
                         texto = texto.substring(1, texto.length() - 1);
+                        ReporteT.agregar(yytext(), "CADENA", yyline + 1, yycolumn + 1);
                         return symbol(sym.CADENA, texto);
                     }
 {CARACTER}          {
                         String texto = yytext();
                         texto = texto.substring(1, texto.length() - 1);
+                        ReporteT.agregar(yytext(), "CARACTER", yyline + 1, yycolumn + 1);
                         return symbol(sym.CARACTER, texto);
                     }
 
 /* ---------- IDENTIFICADORES ---------- */
 
-{ID}                { return symbol(sym.ID, yytext()); }
+{ID}                { ReporteT.agregar(yytext(), "ID", yyline + 1, yycolumn + 1);
+                        return symbol(sym.ID, yytext()); }
 
 /* ---------- COMENTARIOS Y ESPACIOS ---------- */
 
@@ -137,7 +190,10 @@ COMENTARIO_MULTI = "/*"([^*]|\*+[^*/])*\*+"/"
 /* ---------- ERRORES LÉXICOS ---------- */
 
 . {
-    System.out.println("Error léxico: '" + yytext() + 
-                       "' línea " + (yyline + 1) + 
-                       ", columna " + (yycolumn + 1));
+    ReporteE.agregarError(
+        "LEXICO",
+        "Caracter no reconocido: " + yytext(),
+        yyline + 1,
+        yycolumn + 1
+    );
 }

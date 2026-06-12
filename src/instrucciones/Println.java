@@ -2,6 +2,7 @@ package instrucciones;
 
 import ast.Instruccion;
 import entorno.Entorno;
+import entorno.Consola;
 
 
 public class Println extends Instruccion {
@@ -23,9 +24,15 @@ public class Println extends Instruccion {
                         .ejecutar(entorno);
 
     }
-
-    System.out.println(valorFinal);
-
+    //mostraba en consola
+    //System.out.println(valorFinal);
+    //muestra en interfaz
+    //estaba colocando Null cuando habia error
+    //Consola.agregar(valorFinal);
+        if (valorFinal != null) {
+        Consola.agregar(valorFinal);
+    }
+    
     return null;
     }
 }

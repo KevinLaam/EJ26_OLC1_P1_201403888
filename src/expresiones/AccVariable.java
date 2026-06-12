@@ -3,6 +3,7 @@ package expresiones;
 import ast.Instruccion;
 import entorno.Entorno;
 import entorno.Simbolo;
+import reportes.ReporteE;
 
 public class AccVariable extends Instruccion {
 
@@ -22,7 +23,14 @@ public class AccVariable extends Instruccion {
         Simbolo simbolo = entorno.buscar(id);
 
         if (simbolo == null) {
-            System.out.println("Error semantico: La variable " + id + " no existe");
+
+            ReporteE.agregarError(
+                "SEMANTICO",
+                "La variable '" + id + "' no existe",
+                0,
+                0
+            );
+
             return null;
         }
 

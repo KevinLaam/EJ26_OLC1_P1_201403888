@@ -3,6 +3,8 @@ package instrucciones;
 import ast.Instruccion;
 import entorno.Entorno;
 import entorno.Simbolo;
+import reportes.ReporteE;
+
 
 public class Declaracion extends Instruccion {
 
@@ -26,18 +28,29 @@ public class Declaracion extends Instruccion {
             }
         
             if (!validarTipo(tipo, valorFinal)) {
-            System.out.println(
-                "Error semantico: No se puede asignar un valor de tipo "
-                + obtenerTipo(valorFinal)
-                + " a una variable de tipo "
-                + tipo
+            ReporteE.agregarError(
+                "SEMANTICO",
+                "No se puede asignar un valor de tipo " + valorFinal +
+                " a una variable de tipo " + tipo,
+                0,
+                0
             );
+
             return null;
         }
 
         Simbolo simbolo = new Simbolo(id, tipo, valorFinal);
 
-        entorno.guardar(simbolo);
+        boolean guardado = entorno.guardar(simbolo);
+
+        if (!guardado) {
+            ReporteE.agregarError(
+                "SEMANTICO",
+                "La variable '" + id + "' ya existe",
+                0,
+                0
+            );
+        }
 
         return null;
     }

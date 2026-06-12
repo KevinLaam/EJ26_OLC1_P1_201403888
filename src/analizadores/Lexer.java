@@ -5,6 +5,8 @@
 package analizadores;
 
 import java_cup.runtime.Symbol;
+import reportes.ReporteE;
+import reportes.ReporteT;
 
 
 @SuppressWarnings("fallthrough")
@@ -834,9 +836,12 @@ public class Lexer implements java_cup.runtime.Scanner {
       else {
         switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
           case 1:
-            { System.out.println("Error léxico: '" + yytext() + 
-                       "' línea " + (yyline + 1) + 
-                       ", columna " + (yycolumn + 1));
+            { ReporteE.agregarError(
+        "LEXICO",
+        "Caracter no reconocido: " + yytext(),
+        yyline + 1,
+        yycolumn + 1
+    );
             }
           // fall through
           case 54: break;
@@ -846,261 +851,312 @@ public class Lexer implements java_cup.runtime.Scanner {
           // fall through
           case 55: break;
           case 3:
-            { return symbol(sym.NOT);
+            { ReporteT.agregar(yytext(), "NOT", yyline + 1, yycolumn + 1);
+                        return symbol(sym.NOT);
             }
           // fall through
           case 56: break;
           case 4:
-            { return symbol(sym.MOD);
+            { ReporteT.agregar(yytext(), "MOD", yyline + 1, yycolumn + 1);
+                        return symbol(sym.MOD);
             }
           // fall through
           case 57: break;
           case 5:
-            { return symbol(sym.PAR_A);
+            { ReporteT.agregar(yytext(), "PAR_A", yyline + 1, yycolumn + 1);
+                        return symbol(sym.PAR_A);
             }
           // fall through
           case 58: break;
           case 6:
-            { return symbol(sym.PAR_C);
+            { ReporteT.agregar(yytext(), "PAR_C", yyline + 1, yycolumn + 1);
+                        return symbol(sym.PAR_C);
             }
           // fall through
           case 59: break;
           case 7:
-            { return symbol(sym.POR);
+            { ReporteT.agregar(yytext(), "POR", yyline + 1, yycolumn + 1);
+                        return symbol(sym.POR);
             }
           // fall through
           case 60: break;
           case 8:
-            { return symbol(sym.MAS);
+            { ReporteT.agregar(yytext(), "MAS", yyline + 1, yycolumn + 1);
+                        return symbol(sym.MAS);
             }
           // fall through
           case 61: break;
           case 9:
-            { return symbol(sym.COMA);
+            { ReporteT.agregar(yytext(), "COMA", yyline + 1, yycolumn + 1);
+                        return symbol(sym.COMA);
             }
           // fall through
           case 62: break;
           case 10:
-            { return symbol(sym.MENOS);
+            { ReporteT.agregar(yytext(), "MENOS", yyline + 1, yycolumn + 1);
+                        return symbol(sym.MENOS);
             }
           // fall through
           case 63: break;
           case 11:
-            { return symbol(sym.PUNTO);
+            { ReporteT.agregar(yytext(), "PUNTO", yyline + 1, yycolumn + 1);
+                        return symbol(sym.PUNTO);
             }
           // fall through
           case 64: break;
           case 12:
-            { return symbol(sym.DIV);
+            { ReporteT.agregar(yytext(), "DIV", yyline + 1, yycolumn + 1);
+                        return symbol(sym.DIV);
             }
           // fall through
           case 65: break;
           case 13:
-            { return symbol(sym.ENTERO, Integer.parseInt(yytext()));
+            { ReporteT.agregar(yytext(), "ENTERO", yyline + 1, yycolumn + 1);
+                        return symbol(sym.ENTERO, Integer.parseInt(yytext()));
             }
           // fall through
           case 66: break;
           case 14:
-            { return symbol(sym.PUNTO_COMA);
+            { ReporteT.agregar(yytext(), "PUNTO_COMA", yyline + 1, yycolumn + 1);
+                        return symbol(sym.PUNTO_COMA);
             }
           // fall through
           case 67: break;
           case 15:
-            { return symbol(sym.MENOR);
+            { ReporteT.agregar(yytext(), "MENOR", yyline + 1, yycolumn + 1);
+                        return symbol(sym.MENOR);
             }
           // fall through
           case 68: break;
           case 16:
-            { return symbol(sym.IGUAL);
+            { ReporteT.agregar(yytext(), "IGUAL", yyline + 1, yycolumn + 1);
+                        return symbol(sym.IGUAL);
             }
           // fall through
           case 69: break;
           case 17:
-            { return symbol(sym.MAYOR);
+            { ReporteT.agregar(yytext(), "MAYOR", yyline + 1, yycolumn + 1);
+                        return symbol(sym.MAYOR);
             }
           // fall through
           case 70: break;
           case 18:
-            { return symbol(sym.ID, yytext());
+            { ReporteT.agregar(yytext(), "ID", yyline + 1, yycolumn + 1);
+                        return symbol(sym.ID, yytext());
             }
           // fall through
           case 71: break;
           case 19:
-            { return symbol(sym.LLAVE_A);
+            { ReporteT.agregar(yytext(), "LLAVE_A", yyline + 1, yycolumn + 1);
+                        return symbol(sym.LLAVE_A);
             }
           // fall through
           case 72: break;
           case 20:
-            { return symbol(sym.LLAVE_C);
+            { ReporteT.agregar(yytext(), "LLAVE_C", yyline + 1, yycolumn + 1);
+                        return symbol(sym.LLAVE_C);
             }
           // fall through
           case 73: break;
           case 21:
-            { return symbol(sym.DIFERENTE);
+            { ReporteT.agregar(yytext(), "DIFERENTE", yyline + 1, yycolumn + 1);
+                        return symbol(sym.DIFERENTE);
             }
           // fall through
           case 74: break;
           case 22:
             { String texto = yytext();
                         texto = texto.substring(1, texto.length() - 1);
+                        ReporteT.agregar(yytext(), "CADENA", yyline + 1, yycolumn + 1);
                         return symbol(sym.CADENA, texto);
             }
           // fall through
           case 75: break;
           case 23:
-            { return symbol(sym.AND);
+            { ReporteT.agregar(yytext(), "AND", yyline + 1, yycolumn + 1);
+                        return symbol(sym.AND);
             }
           // fall through
           case 76: break;
           case 24:
-            { return symbol(sym.MAS_IGUAL);
+            { ReporteT.agregar(yytext(), "MAS_IGUAL", yyline + 1, yycolumn + 1);
+                        return symbol(sym.MAS_IGUAL);
             }
           // fall through
           case 77: break;
           case 25:
-            { return symbol(sym.MENOS_IGUAL);
+            { ReporteT.agregar(yytext(), "MENOS_IGUAL", yyline + 1, yycolumn + 1);
+                        return symbol(sym.MENOS_IGUAL);
             }
           // fall through
           case 78: break;
           case 26:
-            { return symbol(sym.DECLARACION);
+            { ReporteT.agregar(yytext(), "DECLARACION", yyline + 1, yycolumn + 1);
+                        return symbol(sym.DECLARACION);
             }
           // fall through
           case 79: break;
           case 27:
-            { return symbol(sym.MENOR_IGUAL);
+            { ReporteT.agregar(yytext(), "MENOR_IGUAL", yyline + 1, yycolumn + 1);
+                        return symbol(sym.MENOR_IGUAL);
             }
           // fall through
           case 80: break;
           case 28:
-            { return symbol(sym.IGUAL_IGUAL);
+            { ReporteT.agregar(yytext(), "IGUAL_IGUAL", yyline + 1, yycolumn + 1);
+                        return symbol(sym.IGUAL_IGUAL);
             }
           // fall through
           case 81: break;
           case 29:
-            { return symbol(sym.MAYOR_IGUAL);
+            { ReporteT.agregar(yytext(), "MAYOR_IGUAL", yyline + 1, yycolumn + 1);
+                        return symbol(sym.MAYOR_IGUAL);
             }
           // fall through
           case 82: break;
           case 30:
-            { return symbol(sym.IF);
+            { ReporteT.agregar(yytext(), "IF", yyline + 1, yycolumn + 1);
+                        return symbol(sym.IF);
             }
           // fall through
           case 83: break;
           case 31:
-            { return symbol(sym.OR);
+            { ReporteT.agregar(yytext(), "OR", yyline + 1, yycolumn + 1);
+                        return symbol(sym.OR);
             }
           // fall through
           case 84: break;
           case 32:
             { String texto = yytext();
                         texto = texto.substring(1, texto.length() - 1);
+                        ReporteT.agregar(yytext(), "CARACTER", yyline + 1, yycolumn + 1);
                         return symbol(sym.CARACTER, texto);
             }
           // fall through
           case 85: break;
           case 33:
-            { return symbol(sym.DECIMAL, Double.parseDouble(yytext()));
+            { ReporteT.agregar(yytext(), "DECIMAL", yyline + 1, yycolumn + 1);
+                        return symbol(sym.DECIMAL, Double.parseDouble(yytext()));
             }
           // fall through
           case 86: break;
           case 34:
-            { return symbol(sym.FOR);
+            { ReporteT.agregar(yytext(), "FOR", yyline + 1, yycolumn + 1);
+                        return symbol(sym.FOR);
             }
           // fall through
           case 87: break;
           case 35:
-            { return symbol(sym.INT);
+            { ReporteT.agregar(yytext(), "INT", yyline + 1, yycolumn + 1);
+                        return symbol(sym.INT);
             }
           // fall through
           case 88: break;
           case 36:
-            { return symbol(sym.NIL);
+            { ReporteT.agregar(yytext(), "NIL", yyline + 1, yycolumn + 1);
+                        return symbol(sym.NIL);
             }
           // fall through
           case 89: break;
           case 37:
-            { return symbol(sym.VAR);
+            { ReporteT.agregar(yytext(), "VAR", yyline + 1, yycolumn + 1);
+                        return symbol(sym.VAR);
             }
           // fall through
           case 90: break;
           case 38:
-            { return symbol(sym.BOOL);
+            { ReporteT.agregar(yytext(), "BOOL", yyline + 1, yycolumn + 1);
+                        return symbol(sym.BOOL);
             }
           // fall through
           case 91: break;
           case 39:
-            { return symbol(sym.ELSE);
+            { ReporteT.agregar(yytext(), "ELSE", yyline + 1, yycolumn + 1);
+                        return symbol(sym.ELSE);
             }
           // fall through
           case 92: break;
           case 40:
-            { return symbol(sym.FUNC);
+            { ReporteT.agregar(yytext(), "FUNC", yyline + 1, yycolumn + 1);
+                        return symbol(sym.FUNC);
             }
           // fall through
           case 93: break;
           case 41:
-            { return symbol(sym.MAIN);
+            { ReporteT.agregar(yytext(), "MAIN", yyline + 1, yycolumn + 1);
+                        return symbol(sym.MAIN);
             }
           // fall through
           case 94: break;
           case 42:
-            { return symbol(sym.RUNE);
+            { ReporteT.agregar(yytext(), "RUNE", yyline + 1, yycolumn + 1);
+                        return symbol(sym.RUNE);
             }
           // fall through
           case 95: break;
           case 43:
-            { return symbol(sym.TRUE, true);
+            { ReporteT.agregar(yytext(), "TRUE", yyline + 1, yycolumn + 1);
+                        return symbol(sym.TRUE);
             }
           // fall through
           case 96: break;
           case 44:
-            { return symbol(sym.BREAK);
+            { ReporteT.agregar(yytext(), "BREAK", yyline + 1, yycolumn + 1);
+                        return symbol(sym.BREAK);
             }
           // fall through
           case 97: break;
           case 45:
-            { return symbol(sym.FALSE, false);
+            { ReporteT.agregar(yytext(), "FALSE", yyline + 1, yycolumn + 1);
+                        return symbol(sym.FALSE);
             }
           // fall through
           case 98: break;
           case 46:
-            { return symbol(sym.STRING);
+            { ReporteT.agregar(yytext(), "STRING", yyline + 1, yycolumn + 1);
+                        return symbol(sym.STRING);
             }
           // fall through
           case 99: break;
           case 47:
-            { return symbol(sym.DOTSTRING);
+            { ReporteT.agregar(yytext(), "DOTSTRING", yyline + 1, yycolumn + 1);
+                                return symbol(sym.DOTSTRING);
             }
           // fall through
           case 100: break;
           case 48:
-            { return symbol(sym.FLOAT64);
+            { ReporteT.agregar(yytext(), "FLOAT64", yyline + 1, yycolumn + 1);
+                        return symbol(sym.FLOAT64);
             }
           // fall through
           case 101: break;
           case 49:
-            { return symbol(sym.CONTINUE);
+            { ReporteT.agregar(yytext(), "CONTINUE", yyline + 1, yycolumn + 1);
+                        return symbol(sym.CONTINUE);
             }
           // fall through
           case 102: break;
           case 50:
-            { return symbol(sym.PRINTLN);
+            { ReporteT.agregar(yytext(), "PRINTLN", yyline + 1, yycolumn + 1);
+                                return symbol(sym.PRINTLN);
             }
           // fall through
           case 103: break;
           case 51:
-            { return symbol(sym.ATOI);
+            { ReporteT.agregar(yytext(), "ATOI", yyline + 1, yycolumn + 1);
+                                return symbol(sym.ATOI);
             }
           // fall through
           case 104: break;
           case 52:
-            { return symbol(sym.TYPEOF);
+            { ReporteT.agregar(yytext(), "TYPEOF", yyline + 1, yycolumn + 1);
+                                return symbol(sym.TYPEOF);
             }
           // fall through
           case 105: break;
           case 53:
-            { return symbol(sym.PARSEFLOAT);
+            { ReporteT.agregar(yytext(), "PARSEFLOAT", yyline + 1, yycolumn + 1);
+                                return symbol(sym.PARSEFLOAT);
             }
           // fall through
           case 106: break;

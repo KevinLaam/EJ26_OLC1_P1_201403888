@@ -3,7 +3,7 @@ package instrucciones;
 import ast.Instruccion;
 import entorno.Entorno;
 import entorno.Simbolo;
-
+import reportes.ReporteE;
 public class Asignacion extends Instruccion {
 
     private String id;
@@ -20,7 +20,13 @@ public class Asignacion extends Instruccion {
         Simbolo simbolo = entorno.buscar(id);
 
         if (simbolo == null) {
-            System.out.println("Error semantico: la variable " + id + " no existe");
+            //System.out.println("Error semantico: la variable " + id + " no existe");
+            ReporteE.agregarError(
+                "SEMANTICO",
+                "La variable '" + id + "' no existe",
+                0,
+                0
+            );
             return null;
         }
 
@@ -31,14 +37,17 @@ public class Asignacion extends Instruccion {
         }
 
         if (!validarTipo(simbolo.getTipo(), valorFinal)) {
-            System.out.println(
-                "Error semantico: no se puede asignar un valor de tipo "
-                + obtenerTipo(valorFinal)
-                + " a la variable "
-                + id
-                + " de tipo "
-                + simbolo.getTipo()
-            );
+            ReporteE.agregarError(
+                 "SEMANTICO",
+                 "No se puede asignar un valor de tipo "
+                 + obtenerTipo(valorFinal)
+                 + " a la variable '"
+                 + id
+                 + "' de tipo "
+                 + simbolo.getTipo(),
+                 0,
+                 0
+             );
             return null;
         }
 
