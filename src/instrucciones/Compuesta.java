@@ -41,62 +41,88 @@ public class Compuesta extends Instruccion {
                 ((Instruccion) valor).ejecutar(entorno);
         }
 
-        if (operador.equals("+")) {
+        if (operador.equals("+")||operador.equals("++")) {
 
-            if (actual instanceof Integer
-                    && nuevoValor instanceof Integer) {
+           if (actual instanceof Integer) {
 
-                entorno.actualizar(
-                        id,
-                        (Integer) actual +
-                        (Integer) nuevoValor
-                );
+        if (nuevoValor instanceof Integer) {
 
-                return null;
-            }
+            entorno.actualizar(
+                    id,
+                    (Integer) actual + (Integer) nuevoValor
+            );
 
-            if (actual instanceof Double
-                    || nuevoValor instanceof Double) {
-
-                double a =
-                        ((Number) actual).doubleValue();
-
-                double b =
-                        ((Number) nuevoValor).doubleValue();
-
-                entorno.actualizar(id, a + b);
-
-                return null;
-            }
+            return null;
         }
 
-        if (operador.equals("-")) {
+        System.out.println(
+                "Error semantico: no se puede sumar float64 a int"
+        );
 
-            if (actual instanceof Integer
-                    && nuevoValor instanceof Integer) {
+        return null;
+    }
 
-                entorno.actualizar(
-                        id,
-                        (Integer) actual -
-                        (Integer) nuevoValor
-                );
+    if (actual instanceof Double) {
 
-                return null;
-            }
+        if (nuevoValor instanceof Integer
+                || nuevoValor instanceof Double) {
 
-            if (actual instanceof Double
-                    || nuevoValor instanceof Double) {
+            double a = ((Number) actual).doubleValue();
+            double b = ((Number) nuevoValor).doubleValue();
 
-                double a =
-                        ((Number) actual).doubleValue();
+            entorno.actualizar(id, a + b);
 
-                double b =
-                        ((Number) nuevoValor).doubleValue();
+            return null;
+        }
 
-                entorno.actualizar(id, a - b);
+        System.out.println(
+                "Error semantico: tipos incompatibles para +="
+        );
 
-                return null;
-            }
+        return null;
+    }
+        }
+
+        if (operador.equals("-")||operador.equals("++")) {
+
+             if (actual instanceof Integer) {
+
+        if (nuevoValor instanceof Integer) {
+
+            entorno.actualizar(
+                    id,
+                    (Integer) actual - (Integer) nuevoValor
+            );
+
+            return null;
+        }
+
+        System.out.println(
+                "Error semantico: no se puede restar float64 a int"
+        );
+
+        return null;
+    }
+
+    if (actual instanceof Double) {
+
+        if (nuevoValor instanceof Integer
+                || nuevoValor instanceof Double) {
+
+            double a = ((Number) actual).doubleValue();
+            double b = ((Number) nuevoValor).doubleValue();
+
+            entorno.actualizar(id, a - b);
+
+            return null;
+        }
+
+        System.out.println(
+                "Error semantico: tipos incompatibles para -="
+        );
+
+        return null;
+    }
         }
 
         System.out.println(

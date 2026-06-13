@@ -11,10 +11,10 @@ import instrucciones.Break;
 import instrucciones.Continue;
 import instrucciones.Compuesta;
 import instrucciones.FuncionNativa;
-import reportes.ReporteErrores;
 import java_cup.runtime.Symbol;
 import reportes.ReporteE;
-import reportes.Compuesta;
+import instrucciones.Compuesta;
+import instrucciones.Bloque;
 
 //Para errores 
 
@@ -54,6 +54,7 @@ terminal PRINTLN, ATOI, PARSEFLOAT, TYPEOF, DOTSTRING;
 terminal DECLARACION, MAS_IGUAL, MENOS_IGUAL;
 terminal IGUAL, MAS, MENOS, POR, DIV, MOD;
 terminal IGUAL_IGUAL, DIFERENTE, MENOR, MENOR_IGUAL, MAYOR, MAYOR_IGUAL;
+terminal INCREMENTO, DECREMENTO;
 terminal AND, OR, NOT;
 terminal UMENOS;
 
@@ -73,6 +74,9 @@ non terminal String tipo;
 non terminal Instruccion if_instr;
 non terminal Instruccion for_instr;
 non terminal Instruccion actualizacion_for;
+non terminal Instruccion incremento;
+non terminal Instruccion decremento;
+non terminal LinkedList<Object> lista_print;
 
 precedence left OR;
 precedence left AND;
@@ -113,19 +117,41 @@ instruccion ::= declaracion:d
               | if_instr:i
                 {: RESULT = i; :}
               | for_instr:f
-                {: RESULT = f; :}  
+                {: RESULT = f; :}
+              | incremento:i
+                {: RESULT = i; :}
+              | decremento:d
+                {: RESULT = d; :}
+               //sirve para bloques
+              | LLAVE_A instrucciones:l LLAVE_C
+              {:
+                  RESULT = new Bloque(l);
+              :}
               | BREAK
                 {: RESULT = new Break(); :}
               | CONTINUE
                 {: RESULT = new Continue(); :}
               ;
 
-if_instr ::= IF PAR_A expresion:condicion PAR_C
+incremento ::= ID:id INCREMENTO
+{:
+    RESULT = new Compuesta(id, 1, "+");
+:}
+;
+
+decremento ::= ID:id DECREMENTO
+{:
+    RESULT = new Compuesta(id, 1, "-");
+:}
+;
+               
+
+if_instr ::= IF  expresion:condicion 
              LLAVE_A instrucciones:ins LLAVE_C
              {:
                 RESULT = new If(condicion, ins, null);
              :}
-           | IF PAR_A expresion:condicion PAR_C
+           | IF  expresion:condicion 
              LLAVE_A instrucciones:ins_if LLAVE_C
              ELSE
              LLAVE_A instrucciones:ins_else LLAVE_C
@@ -248,6 +274,11 @@ actualizacion_for ::=
                       {:
                           RESULT = new Asignacion(id, valor);
                       :}
+                    | ID:id INCREMENTO
+                        {: RESULT = new Compuesta(id, 1, "++"); :}
+
+                      | ID:id DECREMENTO
+                        {: RESULT = new Compuesta(id, 1, "--"); :}
                 ;
 
 
@@ -263,7 +294,7 @@ tipo ::= INT
        {: RESULT = "rune"; :}
        ;
 
-impresion ::= PRINTLN PAR_A expresion:e PAR_C
+impresion ::= PRINTLN PAR_A lista_print:e PAR_C
             {:
                 RESULT = new Println(e);
             :}
@@ -280,6 +311,21 @@ impresion ::= PRINTLN PAR_A expresion:e PAR_C
                 RESULT = null;
             :}
             ;
+
+lista_print ::=
+      lista_print:l COMA expresion:e
+      {:
+          l.add(e);
+          RESULT = l;
+      :}
+
+    | expresion:e
+      {:
+          LinkedList<Object> lista = new LinkedList<Object>();
+          lista.add(e);
+          RESULT = lista;
+      :}
+;
 
 expresion ::= expresion:e1 MAS expresion:e2
             {: RESULT = new Operacion(e1, e2, "+"); :}

@@ -116,6 +116,11 @@ COMENTARIO_MULTI = "/*"([^*]|\*+[^*/])*\*+"/"
 "||"                { ReporteT.agregar(yytext(), "OR", yyline + 1, yycolumn + 1);
                         return symbol(sym.OR); }
 
+"++"                {ReporteT.agregar(yytext(), "INCREMENTO", yyline + 1, yycolumn + 1);
+                         return symbol(sym.INCREMENTO); }
+"--"                { ReporteT.agregar(yytext(), "DECREMENTO", yyline + 1, yycolumn + 1);
+                        return symbol(sym.DECREMENTO); }
+
 /* ---------- OPERADORES SIMPLES ---------- */
 
 "="                 { ReporteT.agregar(yytext(), "IGUAL", yyline + 1, yycolumn + 1);

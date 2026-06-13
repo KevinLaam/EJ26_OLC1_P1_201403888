@@ -9,51 +9,53 @@ package analizadores;
 public class sym {
   /* terminals */
   public static final int POR = 29;
-  public static final int ENTERO = 52;
+  public static final int ENTERO = 54;
   public static final int DIFERENTE = 33;
   public static final int CONTINUE = 9;
   public static final int DOTSTRING = 22;
   public static final int INT = 10;
   public static final int PRINTLN = 18;
-  public static final int LLAVE_C = 45;
-  public static final int LLAVE_A = 44;
+  public static final int LLAVE_C = 47;
+  public static final int LLAVE_A = 46;
   public static final int FOR = 7;
-  public static final int NOT = 40;
-  public static final int AND = 38;
+  public static final int NOT = 42;
+  public static final int AND = 40;
   public static final int IGUAL = 26;
   public static final int PARSEFLOAT = 20;
-  public static final int CARACTER = 51;
+  public static final int CARACTER = 53;
   public static final int TYPEOF = 21;
   public static final int NIL = 17;
-  public static final int OR = 39;
+  public static final int OR = 41;
   public static final int BOOL = 13;
   public static final int DIV = 30;
+  public static final int INCREMENTO = 38;
   public static final int ATOI = 19;
-  public static final int UMENOS = 41;
+  public static final int UMENOS = 43;
   public static final int MAS_IGUAL = 24;
   public static final int MAIN = 3;
   public static final int IF = 5;
-  public static final int ID = 49;
-  public static final int PUNTO_COMA = 47;
+  public static final int ID = 51;
+  public static final int PUNTO_COMA = 49;
   public static final int IGUAL_IGUAL = 32;
-  public static final int DECIMAL = 53;
+  public static final int DECIMAL = 55;
   public static final int EOF = 0;
   public static final int TRUE = 15;
+  public static final int DECREMENTO = 39;
   public static final int error = 1;
-  public static final int COMA = 46;
+  public static final int COMA = 48;
   public static final int FLOAT64 = 11;
-  public static final int CADENA = 50;
+  public static final int CADENA = 52;
   public static final int MENOS = 28;
   public static final int MENOR = 34;
-  public static final int PAR_C = 43;
+  public static final int PAR_C = 45;
   public static final int MOD = 31;
-  public static final int PAR_A = 42;
+  public static final int PAR_A = 44;
   public static final int BREAK = 8;
   public static final int RUNE = 14;
   public static final int MAYOR = 36;
   public static final int DECLARACION = 23;
   public static final int ELSE = 6;
-  public static final int PUNTO = 48;
+  public static final int PUNTO = 50;
   public static final int FUNC = 2;
   public static final int MAYOR_IGUAL = 37;
   public static final int STRING = 12;
@@ -101,6 +103,8 @@ public class sym {
   "MENOR_IGUAL",
   "MAYOR",
   "MAYOR_IGUAL",
+  "INCREMENTO",
+  "DECREMENTO",
   "AND",
   "OR",
   "NOT",

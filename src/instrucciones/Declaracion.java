@@ -26,6 +26,15 @@ public class Declaracion extends Instruccion {
             if (valor instanceof Instruccion) {
             valorFinal = ((Instruccion) valor).ejecutar(entorno);
             }
+            
+            //para validar desconocidos 
+            if (tipo.equals("desconocido")) {
+                tipo = obtenerTipo(valorFinal);
+            }
+            //para variables sin valor inicial 
+             if (valorFinal == null) {
+                valorFinal = valorPorDefecto(tipo);
+            }
         
             if (!validarTipo(tipo, valorFinal)) {
             ReporteE.agregarError(
@@ -75,6 +84,27 @@ public class Declaracion extends Instruccion {
 
         return false;
     }
+    //para variables sin inicio
+    private Object valorPorDefecto(String tipo) {
+
+    if (tipo.equals("int")) {
+        return 0;
+    }
+
+    if (tipo.equals("float64")) {
+        return 0.0;
+    }
+
+    if (tipo.equals("string")) {
+        return "";
+    }
+
+    if (tipo.equals("bool")) {
+        return false;
+    }
+
+    return null;
+}
 
     private String obtenerTipo(Object valor) {
 
