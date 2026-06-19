@@ -19,6 +19,10 @@ import reportes.ReporteT;
 import reportes.ReporteE;
 import reportes.ErrorC;
 import entorno.Consola;
+import java.awt.Color;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import java.awt.Insets;
 
 public class Principal extends JFrame {
 
@@ -62,10 +66,57 @@ public class Principal extends JFrame {
         
          add(panelSuperior, BorderLayout.NORTH);
 
+        //JSplitPane splitEditorConsola = new JSplitPane(
+        //      JSplitPane.HORIZONTAL_SPLIT,
+        //    new JScrollPane(editor),
+        //  new JScrollPane(consola)
+        //);
+        JTextArea numerosLinea = new JTextArea("1");
+        numerosLinea.setEditable(false);
+        numerosLinea.setBackground(Color.LIGHT_GRAY);
+        numerosLinea.setColumns(4);
+        numerosLinea.setMargin(new Insets(0, 5, 0, 5));
+        numerosLinea.setFont(editor.getFont());
+        numerosLinea.setFocusable(false);
+        
+        editor.getDocument().addDocumentListener(new DocumentListener() {
+
+    private void actualizarLineas() {
+            int total = editor.getLineCount();
+            StringBuilder sb = new StringBuilder();
+
+            for (int i = 1; i <= total; i++) {
+                sb.append(i).append("\n");
+            }
+
+            numerosLinea.setText(sb.toString());
+        }
+
+        @Override
+        public void insertUpdate(DocumentEvent e) {
+            actualizarLineas();
+        }
+
+        @Override
+        public void removeUpdate(DocumentEvent e) {
+            actualizarLineas();
+        }
+
+        @Override
+        public void changedUpdate(DocumentEvent e) {
+            actualizarLineas();
+        }
+    });
+        
+        JScrollPane scrollEditor = new JScrollPane(editor);
+        scrollEditor.setRowHeaderView(numerosLinea);
+
+        JScrollPane scrollConsola = new JScrollPane(consola);
+
         JSplitPane splitEditorConsola = new JSplitPane(
                 JSplitPane.HORIZONTAL_SPLIT,
-                new JScrollPane(editor),
-                new JScrollPane(consola)
+                scrollEditor,
+                scrollConsola
         );
         splitEditorConsola.setDividerLocation(600);
 
@@ -91,6 +142,9 @@ panelCentro.add(pestañasReportes);
             
             DefaultTableModel modelo = (DefaultTableModel) tablaTokens.getModel();
             modelo.setRowCount(0);
+            
+            DefaultTableModel modeloErrores = (DefaultTableModel) tablaErrores.getModel();
+            modeloErrores.setRowCount(0);
             
             //para limiar tabla de tokens para que no los acumule si hay una nueva declaracion
             ReporteT.limpiar();

@@ -12,7 +12,9 @@ public class Declaracion extends Instruccion {
     private String tipo;
     private Object valor;
 
-    public Declaracion(String id, String tipo, Object valor) {
+    public Declaracion(String id, String tipo, Object valor,int linea, int columna) {
+        //super para linea y columna de errores 
+        super(linea, columna);
         this.id = id;
         this.tipo = tipo;
         this.valor = valor;
@@ -41,8 +43,8 @@ public class Declaracion extends Instruccion {
                 "SEMANTICO",
                 "No se puede asignar un valor de tipo " + valorFinal +
                 " a una variable de tipo " + tipo,
-                0,
-                0
+                linea,
+                columna
             );
 
             return null;
@@ -56,8 +58,8 @@ public class Declaracion extends Instruccion {
             ReporteE.agregarError(
                 "SEMANTICO",
                 "La variable '" + id + "' ya existe",
-                0,
-                0
+                linea,
+                columna
             );
         }
 

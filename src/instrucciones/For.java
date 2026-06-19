@@ -25,10 +25,10 @@ public class For extends Instruccion {
 
     @Override
     public Object ejecutar(Entorno entorno) {
-
+        Entorno entornoFor = new Entorno(entorno);
         //inicializacion.ejecutar(entorno);
         if (inicializacion != null) {
-            inicializacion.ejecutar(entorno);
+            inicializacion.ejecutar(entornoFor);
         }
 
         while (true) {
@@ -38,7 +38,7 @@ public class For extends Instruccion {
             if (condicion instanceof Instruccion) {
                 valorCondicion =
                         ((Instruccion) condicion)
-                                .ejecutar(entorno);
+                                .ejecutar(entornoFor);
             } else {
                 valorCondicion = condicion;
             }
@@ -53,12 +53,13 @@ public class For extends Instruccion {
             if (!((Boolean) valorCondicion)) {
                 break;
             }
-
+             Entorno entornoIteracion = new Entorno(entornoFor);
+             
             for (Instruccion ins : instrucciones) {
 
                  if (ins != null) {
 
-                    Object resultado = ins.ejecutar(entorno);
+                    Object resultado = ins.ejecutar(entornoIteracion);
 
                     if ("break".equals(resultado)) {
                         return null;
@@ -72,7 +73,7 @@ public class For extends Instruccion {
 
             //actualizacion.ejecutar(entorno);
             if (actualizacion != null) {
-                actualizacion.ejecutar(entorno);
+                actualizacion.ejecutar(entornoFor);
             }
         }
 

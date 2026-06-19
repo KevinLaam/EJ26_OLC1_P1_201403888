@@ -146,64 +146,75 @@ decremento ::= ID:id DECREMENTO
 ;
                
 
-if_instr ::= IF  expresion:condicion 
+if_instr ::= IF:i  expresion:condicion 
              LLAVE_A instrucciones:ins LLAVE_C
              {:
                 RESULT = new If(condicion, ins, null);
              :}
-           | IF  expresion:condicion 
+           | IF:i  expresion:condicion 
              LLAVE_A instrucciones:ins_if LLAVE_C
              ELSE
              LLAVE_A instrucciones:ins_else LLAVE_C
              {:
                 RESULT = new If(condicion, ins_if, ins_else);
              :}
+            | IF:i PAR_A error PAR_C
+                           LLAVE_A instrucciones:ins_if LLAVE_C
+                           ELSE
+                           LLAVE_A instrucciones:ins_else LLAVE_C
+                           {:
+                               ReporteE.agregarError(
+                                   "SINTACTICO",
+                                   "Condición inválida dentro del if",
+                                   ileft + 1,
+                                   iright + 1
+                               );
+
+                               RESULT = null;
+                           :}
+
+                      | IF:i expresion:condicion
+                          LLAVE_A instrucciones:ins_if LLAVE_C
+                          ELSE if_instr:ins_else_if
+                          {:
+                              LinkedList<Instruccion> listaElse = new LinkedList<>();
+                              listaElse.add(ins_else_if);
+
+                              RESULT = new If(condicion, ins_if, listaElse);
+                          :}
             //error dentro del if
-             | IF PAR_A error PAR_C LLAVE_A instrucciones:ins LLAVE_C
+             | IF:i PAR_A error PAR_C LLAVE_A instrucciones:ins LLAVE_C
                 {:
                     ReporteE.agregarError(
                         "SINTACTICO",
                         "Condición inválida dentro del if",
-                        0,
-                        0
+                        linea,
+                        columna
                     );
 
                     RESULT = null;
                 :}
-            | IF PAR_A error PAR_C
-                 LLAVE_A instrucciones:ins_if LLAVE_C
-                 ELSE
-                 LLAVE_A instrucciones:ins_else LLAVE_C
-                 {:
-                     ReporteE.agregarError(
-                         "SINTACTICO",
-                         "Condición inválida dentro del if",
-                         0,
-                         0
-                     );
-
-                     RESULT = null;
-                 :}
+          
 
            ;
 
-for_instr ::=   FOR expresion:condicion
+for_instr ::=   FOR:f expresion:condicion
                 LLAVE_A instrucciones:ins LLAVE_C
                 {:
                     RESULT = new For(null, condicion, null, ins);
                 :}
-                | FOR declaracion:inicio PUNTO_COMA expresion:condicion PUNTO_COMA actualizacion_for:actualizacion
+                | FOR:f declaracion:inicio PUNTO_COMA expresion:condicion PUNTO_COMA actualizacion_for:actualizacion
                 LLAVE_A instrucciones:ins LLAVE_C
                 {:
                   RESULT = new For(inicio, condicion, actualizacion, ins);
                 :}
-                | FOR error LLAVE_A instrucciones:ins LLAVE_C
+                | FOR:f error LLAVE_A instrucciones:ins LLAVE_C
                 {:
                     ReporteE.agregarError(
                         "SINTACTICO",
                         "Condición inválida dentro del for",
-                        0,
-                        0
+                        fleft + 1,
+                        fright + 1
                     );
 
                     RESULT = null;
@@ -214,11 +225,11 @@ for_instr ::=   FOR expresion:condicion
 
 declaracion ::= VAR ID:id tipo:t IGUAL expresion:e
               {:
-                  RESULT = new Declaracion(id, t, e);
+                  RESULT = new Declaracion(id, t, e,idleft + 1, idright + 1);
               :}
               | VAR ID:id tipo:t
               {:
-                  RESULT = new Declaracion(id, t, null);
+                  RESULT = new Declaracion(id, t, null,idleft + 1, idright + 1);
               :}
               | ID:id DECLARACION expresion:e
               {:
@@ -229,7 +240,7 @@ declaracion ::= VAR ID:id tipo:t IGUAL expresion:e
                   else if (e instanceof String) tipoInferido = "string";
                   else if (e instanceof Boolean) tipoInferido = "bool";
 
-                  RESULT = new Declaracion(id, tipoInferido, e);
+                  RESULT = new Declaracion(id, tipoInferido, e,idleft + 1, idright + 1);
               :}
                 | ID:id IGUAL expresion:e
               {:
@@ -251,8 +262,8 @@ declaracion ::= VAR ID:id tipo:t IGUAL expresion:e
                     ReporteE.agregarError(
                         "SINTACTICO",
                         "Se esperaba una expresión después del '=' en la declaración de '" + id + "'",
-                        0,
-                        0
+                        idleft + 1,
+                        idright + 1
                     );
 
                     RESULT = null;
@@ -294,18 +305,18 @@ tipo ::= INT
        {: RESULT = "rune"; :}
        ;
 
-impresion ::= PRINTLN PAR_A lista_print:e PAR_C
+impresion ::= PRINTLN:p PAR_A lista_print:e PAR_C
             {:
                 RESULT = new Println(e);
             :}
             //para errores dentro de print.fm ejempo print(10+ )
-            | PRINTLN PAR_A error PAR_C
+            | PRINTLN:p PAR_A error PAR_C
             {:
                 ReporteE.agregarError(
                     "SINTACTICO",
                     "Expresión inválida dentro de fmt.Println",
-                    0,
-                    0
+                    pleft +1,
+                    pright + 1
                 );
 
                 RESULT = null;
@@ -382,6 +393,10 @@ expresion ::= expresion:e1 MAS expresion:e2
             :}
 
             | PARSEFLOAT PAR_A expresion:e COMA expresion:n PAR_C
+            {:
+                RESULT = new FuncionNativa("parsefloat", e);
+            :}
+            | PARSEFLOAT PAR_A expresion:e PAR_C
             {:
                 RESULT = new FuncionNativa("parsefloat", e);
             :}

@@ -33,11 +33,13 @@ public class If extends Instruccion {
         }
 
         if ((Boolean) valorCondicion) {
+            
+             Entorno entornoIf = new Entorno(entorno);
 
             for (Instruccion ins : instruccionesIf) {
                 if (ins != null) {
                     //ins.ejecutar(entorno);
-                    Object resultado = ins.ejecutar(entorno);
+                    Object resultado = ins.ejecutar(entornoIf);
 
                     if ("break".equals(resultado) || "continue".equals(resultado)) {
                         return resultado;
@@ -46,12 +48,14 @@ public class If extends Instruccion {
             }
 
         } else {
+            
+             Entorno entornoElse = new Entorno(entorno);
 
             if (instruccionesElse != null) {
                 for (Instruccion ins : instruccionesElse) {
                     if (ins != null) {
                         //ins.ejecutar(entorno);
-                        Object resultado = ins.ejecutar(entorno);
+                        Object resultado = ins.ejecutar(entornoElse);
 
                         if ("break".equals(resultado) || "continue".equals(resultado)) {
                             return resultado;
