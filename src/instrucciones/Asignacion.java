@@ -9,7 +9,8 @@ public class Asignacion extends Instruccion {
     private String id;
     private Object valor;
 
-    public Asignacion(String id, Object valor) {
+    public Asignacion(String id, Object valor, int linea, int columna) {
+        super(linea,columna);
         this.id = id;
         this.valor = valor;
     }
@@ -24,8 +25,8 @@ public class Asignacion extends Instruccion {
             ReporteE.agregarError(
                 "SEMANTICO",
                 "La variable '" + id + "' no existe",
-                0,
-                0
+                linea,
+                columna
             );
             return null;
         }
@@ -45,8 +46,8 @@ public class Asignacion extends Instruccion {
                  + id
                  + "' de tipo "
                  + simbolo.getTipo(),
-                 0,
-                 0
+                 linea,
+                 columna
              );
             return null;
         }

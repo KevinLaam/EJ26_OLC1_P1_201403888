@@ -2,13 +2,15 @@ package instrucciones;
 
 import ast.Instruccion;
 import entorno.Entorno;
+import reportes.ReporteE;
 
 public class FuncionNativa extends Instruccion {
 
     private String tipo;
     private Object valor;
 
-    public FuncionNativa(String tipo, Object valor) {
+    public FuncionNativa(String tipo, Object valor, int linea, int columna) {
+        super(linea, columna);
         this.tipo = tipo;
         this.valor = valor;
     }
@@ -25,10 +27,32 @@ public class FuncionNativa extends Instruccion {
         switch(tipo){
 
             case "atoi":
+                //return Integer.parseInt(resultado.toString());
+                 try {
                 return Integer.parseInt(resultado.toString());
+            } catch (NumberFormatException ex) {
+                ReporteE.agregarError(
+                    "SEMANTICO",
+                    "No se puede convertir a int: " + resultado,
+                    linea,
+                    columna
+                );
+                return null;
+            }
 
             case "parsefloat":
-                return Double.parseDouble(resultado.toString());
+                //return Double.parseDouble(resultado.toString());
+                try {
+                    return Double.parseDouble(resultado.toString());
+                } catch (NumberFormatException ex) {
+                    ReporteE.agregarError(
+                        "SEMANTICO",
+                        "No se puede convertir a float64: " + resultado,
+                        linea,
+                        columna
+                    );
+                    return null;
+                }
 
             case "typeof":
 

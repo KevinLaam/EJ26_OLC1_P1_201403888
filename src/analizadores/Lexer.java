@@ -107,16 +107,17 @@ public class Lexer implements java_cup.runtime.Scanner {
     "\1\1\1\16\1\17\1\20\1\21\14\22\1\23\1\1"+
     "\1\24\1\25\1\0\1\26\1\0\1\27\2\0\1\30"+
     "\1\31\1\32\1\33\2\0\1\2\1\0\1\34\1\35"+
-    "\1\36\1\37\11\22\1\40\10\22\1\41\1\42\2\0"+
-    "\1\43\7\22\1\44\1\22\1\45\1\22\1\46\4\22"+
-    "\1\47\1\0\1\2\1\50\2\22\1\51\2\22\1\0"+
-    "\1\52\1\53\1\22\1\54\2\22\1\55\1\0\1\56"+
-    "\1\22\1\57\1\22\1\0\3\22\1\0\2\22\1\0"+
-    "\2\22\1\60\1\61\1\22\1\62\1\0\2\22\1\63"+
-    "\13\0\1\64\4\0\1\65\3\0\1\66\4\0\1\67";
+    "\1\36\1\37\1\40\11\22\1\41\10\22\1\42\1\43"+
+    "\2\0\1\44\7\22\1\45\1\22\1\46\1\22\1\47"+
+    "\5\22\1\50\1\0\1\2\1\51\2\22\1\52\2\22"+
+    "\1\0\1\53\1\54\2\22\1\55\2\22\1\56\1\0"+
+    "\1\57\1\22\1\60\1\22\1\0\4\22\1\0\2\22"+
+    "\1\0\1\22\1\61\1\22\1\62\1\63\1\22\1\64"+
+    "\1\0\2\22\1\65\13\0\1\66\4\0\1\67\3\0"+
+    "\1\70\4\0\1\71";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[161];
+    int [] result = new int[166];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -147,24 +148,24 @@ public class Lexer implements java_cup.runtime.Scanner {
     "\0\u03de\0\u0415\0\u044c\0\u0483\0\u04ba\0\u04f1\0\u0528\0\u055f"+
     "\0\u0596\0\u05cd\0\67\0\u0604\0\67\0\67\0\334\0\67"+
     "\0\u063b\0\67\0\u0672\0\u06a9\0\67\0\67\0\67\0\67"+
-    "\0\u06e0\0\u0717\0\u074e\0\u0785\0\67\0\67\0\67\0\67"+
-    "\0\u07bc\0\u07f3\0\u082a\0\u0861\0\u0898\0\u08cf\0\u0906\0\u093d"+
-    "\0\u0974\0\u0370\0\u09ab\0\u09e2\0\u0a19\0\u0a50\0\u0a87\0\u0abe"+
-    "\0\u0af5\0\u0b2c\0\67\0\67\0\u0b63\0\u0b9a\0\u0785\0\u0bd1"+
-    "\0\u0c08\0\u0c3f\0\u0c76\0\u0cad\0\u0ce4\0\u0d1b\0\u0370\0\u0d52"+
-    "\0\u0370\0\u0d89\0\u0370\0\u0dc0\0\u0df7\0\u0e2e\0\u0e65\0\u0370"+
-    "\0\u0e9c\0\67\0\u0370\0\u0ed3\0\u0f0a\0\u0370\0\u0f41\0\u0f78"+
-    "\0\u0faf\0\u0370\0\u0370\0\u0fe6\0\u0370\0\u101d\0\u1054\0\u0370"+
-    "\0\u108b\0\u0370\0\u10c2\0\u0370\0\u10f9\0\u1130\0\u1167\0\u119e"+
-    "\0\u11d5\0\u120c\0\u1243\0\u127a\0\u12b1\0\u12e8\0\u131f\0\u0370"+
-    "\0\67\0\u1356\0\u0370\0\u138d\0\u13c4\0\u13fb\0\u0370\0\u1432"+
-    "\0\u1469\0\u14a0\0\u14d7\0\u150e\0\u1545\0\u157c\0\u15b3\0\u15ea"+
-    "\0\u1621\0\u1658\0\67\0\u168f\0\u16c6\0\u16fd\0\u1734\0\67"+
-    "\0\u176b\0\u17a2\0\u17d9\0\67\0\u1810\0\u1847\0\u187e\0\u18b5"+
-    "\0\67";
+    "\0\u06e0\0\u0717\0\u074e\0\u0785\0\u07bc\0\67\0\67\0\67"+
+    "\0\67\0\u07f3\0\u082a\0\u0861\0\u0898\0\u08cf\0\u0906\0\u093d"+
+    "\0\u0974\0\u09ab\0\u0370\0\u09e2\0\u0a19\0\u0a50\0\u0a87\0\u0abe"+
+    "\0\u0af5\0\u0b2c\0\u0b63\0\67\0\67\0\u0b9a\0\u0bd1\0\u0785"+
+    "\0\u0c08\0\u0c3f\0\u0c76\0\u0cad\0\u0ce4\0\u0d1b\0\u0d52\0\u0370"+
+    "\0\u0d89\0\u0370\0\u0dc0\0\u0370\0\u0df7\0\u0e2e\0\u0e65\0\u0e9c"+
+    "\0\u0ed3\0\u0370\0\u0f0a\0\67\0\u0370\0\u0f41\0\u0f78\0\u0370"+
+    "\0\u0faf\0\u0fe6\0\u101d\0\u0370\0\u0370\0\u1054\0\u108b\0\u0370"+
+    "\0\u10c2\0\u10f9\0\u0370\0\u1130\0\u0370\0\u1167\0\u0370\0\u119e"+
+    "\0\u11d5\0\u120c\0\u1243\0\u127a\0\u12b1\0\u12e8\0\u131f\0\u1356"+
+    "\0\u138d\0\u13c4\0\u0370\0\u13fb\0\u0370\0\67\0\u1432\0\u0370"+
+    "\0\u1469\0\u14a0\0\u14d7\0\u0370\0\u150e\0\u1545\0\u157c\0\u15b3"+
+    "\0\u15ea\0\u1621\0\u1658\0\u168f\0\u16c6\0\u16fd\0\u1734\0\67"+
+    "\0\u176b\0\u17a2\0\u17d9\0\u1810\0\67\0\u1847\0\u187e\0\u18b5"+
+    "\0\67\0\u18ec\0\u1923\0\u195a\0\u1991\0\67";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[161];
+    int [] result = new int[166];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -197,85 +198,90 @@ public class Lexer implements java_cup.runtime.Scanner {
     "\57\0\10\53\1\0\27\53\1\54\26\53\14\0\1\55"+
     "\12\0\1\56\55\0\1\57\10\0\1\60\75\0\1\61"+
     "\43\0\1\62\4\0\1\63\65\0\1\64\1\0\3\21"+
-    "\72\0\1\65\66\0\1\66\66\0\1\67\66\0\1\70"+
-    "\60\0\3\27\5\0\7\27\1\0\23\27\24\0\3\27"+
-    "\5\0\7\27\1\0\13\27\1\71\1\27\1\72\5\27"+
-    "\24\0\3\27\5\0\7\27\1\0\13\27\1\73\7\27"+
-    "\24\0\3\27\5\0\7\27\1\0\10\27\1\74\12\27"+
-    "\24\0\3\27\5\0\7\27\1\0\1\75\7\27\1\76"+
-    "\1\77\1\27\1\100\4\27\1\101\2\27\24\0\3\27"+
-    "\5\0\7\27\1\0\4\27\1\102\5\27\1\103\10\27"+
-    "\24\0\3\27\5\0\7\27\1\0\1\104\22\27\24\0"+
-    "\3\27\5\0\7\27\1\0\6\27\1\105\14\27\24\0"+
-    "\3\27\5\0\7\27\1\0\3\27\1\106\14\27\1\107"+
-    "\2\27\24\0\3\27\5\0\7\27\1\0\17\27\1\110"+
-    "\3\27\24\0\3\27\5\0\7\27\1\0\15\27\1\111"+
-    "\5\27\24\0\3\27\5\0\7\27\1\0\1\112\22\27"+
-    "\70\0\1\113\6\0\1\47\32\0\1\47\12\0\1\47"+
-    "\2\0\1\47\1\0\1\47\16\0\1\114\66\0\1\53"+
-    "\27\0\1\53\12\0\1\53\2\0\1\53\1\0\1\53"+
-    "\66\0\1\115\6\0\13\62\1\116\53\62\2\63\2\0"+
-    "\63\63\21\0\3\117\64\0\3\27\5\0\7\27\1\0"+
-    "\13\27\1\120\7\27\24\0\3\27\5\0\7\27\1\0"+
-    "\3\27\1\121\17\27\24\0\3\27\5\0\7\27\1\0"+
-    "\12\27\1\122\10\27\24\0\3\27\5\0\7\27\1\0"+
-    "\16\27\1\123\4\27\24\0\3\27\5\0\7\27\1\0"+
-    "\10\27\1\124\12\27\24\0\3\27\5\0\7\27\1\0"+
-    "\13\27\1\125\7\27\24\0\3\27\5\0\7\27\1\0"+
-    "\17\27\1\126\3\27\24\0\3\27\5\0\7\27\1\0"+
-    "\15\27\1\127\5\27\24\0\3\27\5\0\7\27\1\0"+
-    "\12\27\1\130\10\27\24\0\3\27\5\0\7\27\1\0"+
-    "\17\27\1\131\3\27\24\0\3\27\5\0\7\27\1\0"+
-    "\6\27\1\132\14\27\24\0\3\27\5\0\7\27\1\0"+
-    "\10\27\1\133\12\27\24\0\3\27\5\0\7\27\1\0"+
-    "\4\27\1\134\16\27\24\0\3\27\5\0\7\27\1\0"+
-    "\12\27\1\135\10\27\24\0\3\27\5\0\7\27\1\0"+
-    "\15\27\1\136\5\27\24\0\3\27\5\0\7\27\1\0"+
-    "\20\27\1\137\2\27\24\0\3\27\5\0\7\27\1\0"+
-    "\15\27\1\140\5\27\61\0\1\141\10\0\13\62\1\116"+
-    "\4\62\1\142\46\62\21\0\3\27\5\0\7\27\1\0"+
-    "\10\27\1\143\12\27\24\0\3\27\5\0\7\27\1\0"+
-    "\1\144\22\27\24\0\3\27\5\0\7\27\1\0\17\27"+
-    "\1\145\3\27\24\0\3\27\5\0\7\27\1\0\3\27"+
-    "\1\146\17\27\24\0\3\27\5\0\7\27\1\0\16\27"+
-    "\1\147\4\27\24\0\3\27\5\0\7\27\1\0\1\150"+
-    "\22\27\22\0\1\151\1\0\3\27\5\0\7\27\1\0"+
-    "\23\27\24\0\3\27\5\0\7\27\1\0\2\27\1\152"+
-    "\20\27\24\0\3\27\5\0\7\27\1\0\12\27\1\153"+
-    "\10\27\24\0\3\27\5\0\7\27\1\0\10\27\1\154"+
-    "\12\27\24\0\3\27\5\0\7\27\1\0\3\27\1\155"+
-    "\17\27\24\0\3\27\5\0\7\27\1\0\2\27\1\156"+
-    "\3\27\1\157\14\27\24\0\3\27\5\0\7\27\1\0"+
-    "\3\27\1\160\17\27\52\0\1\161\40\0\3\27\5\0"+
-    "\7\27\1\0\7\27\1\162\13\27\24\0\3\27\5\0"+
-    "\7\27\1\0\6\27\1\163\14\27\24\0\3\27\5\0"+
-    "\7\27\1\0\3\27\1\164\17\27\24\0\3\27\5\0"+
-    "\7\27\1\0\17\27\1\165\3\27\40\0\1\166\52\0"+
-    "\3\27\5\0\7\27\1\0\3\27\1\167\17\27\24\0"+
-    "\3\27\5\0\7\27\1\0\13\27\1\170\7\27\24\0"+
-    "\3\27\5\0\7\27\1\0\12\27\1\171\10\27\56\0"+
-    "\1\172\34\0\3\27\5\0\7\27\1\0\12\27\1\173"+
-    "\10\27\24\0\2\27\1\174\5\0\7\27\1\0\23\27"+
-    "\61\0\1\175\31\0\3\27\5\0\7\27\1\0\2\27"+
-    "\1\176\20\27\24\0\3\27\5\0\7\27\1\0\12\27"+
-    "\1\177\10\27\24\0\3\27\5\0\7\27\1\0\5\27"+
-    "\1\200\15\27\51\0\1\201\41\0\3\27\5\0\7\27"+
-    "\1\0\20\27\1\202\2\27\24\0\1\27\1\203\1\27"+
-    "\5\0\7\27\1\0\23\27\52\0\1\204\40\0\3\27"+
-    "\5\0\7\27\1\0\17\27\1\205\3\27\24\0\3\27"+
-    "\5\0\7\27\1\0\21\27\1\206\1\27\24\0\3\27"+
-    "\5\0\7\27\1\0\3\27\1\207\17\27\56\0\1\210"+
-    "\32\0\1\211\1\0\3\27\5\0\7\27\1\0\23\27"+
-    "\22\0\1\212\1\0\3\27\5\0\7\27\1\0\23\27"+
-    "\63\0\1\213\45\0\1\214\60\0\1\215\3\0\1\216"+
-    "\102\0\1\217\100\0\1\220\63\0\1\221\47\0\1\222"+
-    "\100\0\1\223\70\0\1\224\65\0\1\225\70\0\1\226"+
-    "\54\0\1\227\71\0\1\230\76\0\1\231\43\0\1\232"+
-    "\76\0\1\233\67\0\1\234\54\0\1\235\104\0\1\236"+
-    "\71\0\1\237\53\0\1\240\105\0\1\241\6\0";
+    "\5\0\7\65\1\0\23\65\32\0\1\66\66\0\1\67"+
+    "\66\0\1\70\66\0\1\71\60\0\3\27\5\0\7\27"+
+    "\1\0\23\27\24\0\3\27\5\0\7\27\1\0\13\27"+
+    "\1\72\1\27\1\73\5\27\24\0\3\27\5\0\7\27"+
+    "\1\0\13\27\1\74\7\27\24\0\3\27\5\0\7\27"+
+    "\1\0\10\27\1\75\12\27\24\0\3\27\5\0\7\27"+
+    "\1\0\1\76\7\27\1\77\1\100\1\27\1\101\4\27"+
+    "\1\102\2\27\24\0\3\27\5\0\7\27\1\0\4\27"+
+    "\1\103\5\27\1\104\10\27\24\0\3\27\5\0\7\27"+
+    "\1\0\1\105\22\27\24\0\3\27\5\0\7\27\1\0"+
+    "\6\27\1\106\14\27\24\0\3\27\5\0\7\27\1\0"+
+    "\3\27\1\107\14\27\1\110\2\27\24\0\3\27\5\0"+
+    "\7\27\1\0\17\27\1\111\3\27\24\0\3\27\5\0"+
+    "\7\27\1\0\15\27\1\112\5\27\24\0\3\27\5\0"+
+    "\7\27\1\0\1\113\22\27\70\0\1\114\6\0\1\47"+
+    "\32\0\1\47\12\0\1\47\2\0\1\47\1\0\1\47"+
+    "\16\0\1\115\66\0\1\53\27\0\1\53\12\0\1\53"+
+    "\2\0\1\53\1\0\1\53\66\0\1\116\6\0\13\62"+
+    "\1\117\53\62\2\63\2\0\63\63\21\0\3\120\64\0"+
+    "\3\65\5\0\7\65\1\0\23\65\24\0\3\27\5\0"+
+    "\7\27\1\0\13\27\1\121\7\27\24\0\3\27\5\0"+
+    "\7\27\1\0\3\27\1\122\17\27\24\0\3\27\5\0"+
+    "\7\27\1\0\12\27\1\123\10\27\24\0\3\27\5\0"+
+    "\7\27\1\0\16\27\1\124\4\27\24\0\3\27\5\0"+
+    "\7\27\1\0\10\27\1\125\12\27\24\0\3\27\5\0"+
+    "\7\27\1\0\13\27\1\126\7\27\24\0\3\27\5\0"+
+    "\7\27\1\0\17\27\1\127\3\27\24\0\3\27\5\0"+
+    "\7\27\1\0\15\27\1\130\5\27\24\0\3\27\5\0"+
+    "\7\27\1\0\12\27\1\131\10\27\24\0\3\27\5\0"+
+    "\7\27\1\0\17\27\1\132\3\27\24\0\3\27\5\0"+
+    "\7\27\1\0\6\27\1\133\14\27\24\0\3\27\5\0"+
+    "\7\27\1\0\10\27\1\134\12\27\24\0\3\27\5\0"+
+    "\7\27\1\0\4\27\1\135\12\27\1\136\3\27\24\0"+
+    "\3\27\5\0\7\27\1\0\12\27\1\137\10\27\24\0"+
+    "\3\27\5\0\7\27\1\0\15\27\1\140\5\27\24\0"+
+    "\3\27\5\0\7\27\1\0\20\27\1\141\2\27\24\0"+
+    "\3\27\5\0\7\27\1\0\15\27\1\142\5\27\61\0"+
+    "\1\143\10\0\13\62\1\117\4\62\1\144\46\62\21\0"+
+    "\3\27\5\0\7\27\1\0\10\27\1\145\12\27\24\0"+
+    "\3\27\5\0\7\27\1\0\1\146\22\27\24\0\3\27"+
+    "\5\0\7\27\1\0\17\27\1\147\3\27\24\0\3\27"+
+    "\5\0\7\27\1\0\3\27\1\150\17\27\24\0\3\27"+
+    "\5\0\7\27\1\0\16\27\1\151\4\27\24\0\3\27"+
+    "\5\0\7\27\1\0\1\152\22\27\22\0\1\153\1\0"+
+    "\3\27\5\0\7\27\1\0\23\27\24\0\3\27\5\0"+
+    "\7\27\1\0\2\27\1\154\20\27\24\0\3\27\5\0"+
+    "\7\27\1\0\12\27\1\155\10\27\24\0\3\27\5\0"+
+    "\7\27\1\0\10\27\1\156\12\27\24\0\3\27\5\0"+
+    "\7\27\1\0\20\27\1\157\2\27\24\0\3\27\5\0"+
+    "\7\27\1\0\3\27\1\160\17\27\24\0\3\27\5\0"+
+    "\7\27\1\0\2\27\1\161\3\27\1\162\14\27\24\0"+
+    "\3\27\5\0\7\27\1\0\3\27\1\163\17\27\52\0"+
+    "\1\164\40\0\3\27\5\0\7\27\1\0\7\27\1\165"+
+    "\13\27\24\0\3\27\5\0\7\27\1\0\6\27\1\166"+
+    "\14\27\24\0\3\27\5\0\7\27\1\0\3\27\1\167"+
+    "\17\27\24\0\3\27\5\0\7\27\1\0\17\27\1\170"+
+    "\3\27\40\0\1\171\52\0\3\27\5\0\7\27\1\0"+
+    "\3\27\1\172\17\27\24\0\3\27\5\0\7\27\1\0"+
+    "\15\27\1\173\5\27\24\0\3\27\5\0\7\27\1\0"+
+    "\13\27\1\174\7\27\24\0\3\27\5\0\7\27\1\0"+
+    "\12\27\1\175\10\27\56\0\1\176\34\0\3\27\5\0"+
+    "\7\27\1\0\12\27\1\177\10\27\24\0\2\27\1\200"+
+    "\5\0\7\27\1\0\23\27\61\0\1\201\31\0\3\27"+
+    "\5\0\7\27\1\0\2\27\1\202\20\27\24\0\3\27"+
+    "\5\0\7\27\1\0\12\27\1\203\10\27\24\0\3\27"+
+    "\5\0\7\27\1\0\12\27\1\204\10\27\24\0\3\27"+
+    "\5\0\7\27\1\0\5\27\1\205\15\27\51\0\1\206"+
+    "\41\0\3\27\5\0\7\27\1\0\20\27\1\207\2\27"+
+    "\24\0\1\27\1\210\1\27\5\0\7\27\1\0\23\27"+
+    "\52\0\1\211\40\0\3\27\5\0\7\27\1\0\17\27"+
+    "\1\212\3\27\24\0\3\27\5\0\7\27\1\0\21\27"+
+    "\1\213\1\27\24\0\3\27\5\0\7\27\1\0\3\27"+
+    "\1\214\17\27\56\0\1\215\32\0\1\216\1\0\3\27"+
+    "\5\0\7\27\1\0\23\27\22\0\1\217\1\0\3\27"+
+    "\5\0\7\27\1\0\23\27\63\0\1\220\45\0\1\221"+
+    "\60\0\1\222\3\0\1\223\102\0\1\224\100\0\1\225"+
+    "\63\0\1\226\47\0\1\227\100\0\1\230\70\0\1\231"+
+    "\65\0\1\232\70\0\1\233\54\0\1\234\71\0\1\235"+
+    "\76\0\1\236\43\0\1\237\76\0\1\240\67\0\1\241"+
+    "\54\0\1\242\104\0\1\243\71\0\1\244\53\0\1\245"+
+    "\105\0\1\246\6\0";
 
   private static int [] zzUnpacktrans() {
-    int [] result = new int[6380];
+    int [] result = new int[6600];
     int offset = 0;
     offset = zzUnpacktrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -320,14 +326,14 @@ public class Lexer implements java_cup.runtime.Scanner {
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
     "\1\0\1\11\3\1\1\11\2\1\3\11\1\1\1\11"+
     "\5\1\1\11\17\1\1\11\1\1\2\11\1\0\1\11"+
-    "\1\0\1\11\2\0\4\11\2\0\1\1\1\0\4\11"+
-    "\22\1\2\11\2\0\22\1\1\0\1\11\6\1\1\0"+
-    "\7\1\1\0\4\1\1\0\3\1\1\0\2\1\1\0"+
-    "\3\1\1\11\2\1\1\0\3\1\13\0\1\11\4\0"+
-    "\1\11\3\0\1\11\4\0\1\11";
+    "\1\0\1\11\2\0\4\11\2\0\1\1\1\0\1\1"+
+    "\4\11\22\1\2\11\2\0\23\1\1\0\1\11\6\1"+
+    "\1\0\10\1\1\0\4\1\1\0\4\1\1\0\2\1"+
+    "\1\0\4\1\1\11\2\1\1\0\3\1\13\0\1\11"+
+    "\4\0\1\11\3\0\1\11\4\0\1\11";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[161];
+    int [] result = new int[166];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -845,126 +851,126 @@ public class Lexer implements java_cup.runtime.Scanner {
     );
             }
           // fall through
-          case 56: break;
+          case 58: break;
           case 2:
             { 
             }
           // fall through
-          case 57: break;
+          case 59: break;
           case 3:
             { ReporteT.agregar(yytext(), "NOT", yyline + 1, yycolumn + 1);
                         return symbol(sym.NOT);
             }
           // fall through
-          case 58: break;
+          case 60: break;
           case 4:
             { ReporteT.agregar(yytext(), "MOD", yyline + 1, yycolumn + 1);
                         return symbol(sym.MOD);
             }
           // fall through
-          case 59: break;
+          case 61: break;
           case 5:
             { ReporteT.agregar(yytext(), "PAR_A", yyline + 1, yycolumn + 1);
                         return symbol(sym.PAR_A);
             }
           // fall through
-          case 60: break;
+          case 62: break;
           case 6:
             { ReporteT.agregar(yytext(), "PAR_C", yyline + 1, yycolumn + 1);
                         return symbol(sym.PAR_C);
             }
           // fall through
-          case 61: break;
+          case 63: break;
           case 7:
             { ReporteT.agregar(yytext(), "POR", yyline + 1, yycolumn + 1);
                         return symbol(sym.POR);
             }
           // fall through
-          case 62: break;
+          case 64: break;
           case 8:
             { ReporteT.agregar(yytext(), "MAS", yyline + 1, yycolumn + 1);
                         return symbol(sym.MAS);
             }
           // fall through
-          case 63: break;
+          case 65: break;
           case 9:
             { ReporteT.agregar(yytext(), "COMA", yyline + 1, yycolumn + 1);
                         return symbol(sym.COMA);
             }
           // fall through
-          case 64: break;
+          case 66: break;
           case 10:
             { ReporteT.agregar(yytext(), "MENOS", yyline + 1, yycolumn + 1);
                         return symbol(sym.MENOS);
             }
           // fall through
-          case 65: break;
+          case 67: break;
           case 11:
             { ReporteT.agregar(yytext(), "PUNTO", yyline + 1, yycolumn + 1);
                         return symbol(sym.PUNTO);
             }
           // fall through
-          case 66: break;
+          case 68: break;
           case 12:
             { ReporteT.agregar(yytext(), "DIV", yyline + 1, yycolumn + 1);
                         return symbol(sym.DIV);
             }
           // fall through
-          case 67: break;
+          case 69: break;
           case 13:
             { ReporteT.agregar(yytext(), "ENTERO", yyline + 1, yycolumn + 1);
                         return symbol(sym.ENTERO, Integer.parseInt(yytext()));
             }
           // fall through
-          case 68: break;
+          case 70: break;
           case 14:
             { ReporteT.agregar(yytext(), "PUNTO_COMA", yyline + 1, yycolumn + 1);
                         return symbol(sym.PUNTO_COMA);
             }
           // fall through
-          case 69: break;
+          case 71: break;
           case 15:
             { ReporteT.agregar(yytext(), "MENOR", yyline + 1, yycolumn + 1);
                         return symbol(sym.MENOR);
             }
           // fall through
-          case 70: break;
+          case 72: break;
           case 16:
             { ReporteT.agregar(yytext(), "IGUAL", yyline + 1, yycolumn + 1);
                         return symbol(sym.IGUAL);
             }
           // fall through
-          case 71: break;
+          case 73: break;
           case 17:
             { ReporteT.agregar(yytext(), "MAYOR", yyline + 1, yycolumn + 1);
                         return symbol(sym.MAYOR);
             }
           // fall through
-          case 72: break;
+          case 74: break;
           case 18:
             { ReporteT.agregar(yytext(), "ID", yyline + 1, yycolumn + 1);
                         return symbol(sym.ID, yytext());
             }
           // fall through
-          case 73: break;
+          case 75: break;
           case 19:
             { ReporteT.agregar(yytext(), "LLAVE_A", yyline + 1, yycolumn + 1);
                         return symbol(sym.LLAVE_A);
             }
           // fall through
-          case 74: break;
+          case 76: break;
           case 20:
             { ReporteT.agregar(yytext(), "LLAVE_C", yyline + 1, yycolumn + 1);
                         return symbol(sym.LLAVE_C);
             }
           // fall through
-          case 75: break;
+          case 77: break;
           case 21:
             { ReporteT.agregar(yytext(), "DIFERENTE", yyline + 1, yycolumn + 1);
                         return symbol(sym.DIFERENTE);
             }
           // fall through
-          case 76: break;
+          case 78: break;
           case 22:
             { String texto = yytext();
                         texto = texto.substring(1, texto.length() - 1);
@@ -972,207 +978,218 @@ public class Lexer implements java_cup.runtime.Scanner {
                         return symbol(sym.CADENA, texto);
             }
           // fall through
-          case 77: break;
+          case 79: break;
           case 23:
             { ReporteT.agregar(yytext(), "AND", yyline + 1, yycolumn + 1);
                         return symbol(sym.AND);
             }
           // fall through
-          case 78: break;
+          case 80: break;
           case 24:
             { ReporteT.agregar(yytext(), "INCREMENTO", yyline + 1, yycolumn + 1);
                          return symbol(sym.INCREMENTO);
             }
           // fall through
-          case 79: break;
+          case 81: break;
           case 25:
             { ReporteT.agregar(yytext(), "MAS_IGUAL", yyline + 1, yycolumn + 1);
                         return symbol(sym.MAS_IGUAL);
             }
           // fall through
-          case 80: break;
+          case 82: break;
           case 26:
             { ReporteT.agregar(yytext(), "DECREMENTO", yyline + 1, yycolumn + 1);
                         return symbol(sym.DECREMENTO);
             }
           // fall through
-          case 81: break;
+          case 83: break;
           case 27:
             { ReporteT.agregar(yytext(), "MENOS_IGUAL", yyline + 1, yycolumn + 1);
                         return symbol(sym.MENOS_IGUAL);
             }
           // fall through
-          case 82: break;
+          case 84: break;
           case 28:
+            { ReporteE.agregarError("LEXICO","Identificador inválido: " + yytext(),yyline + 1,yycolumn + 1);
+            }
+          // fall through
+          case 85: break;
+          case 29:
             { ReporteT.agregar(yytext(), "DECLARACION", yyline + 1, yycolumn + 1);
                         return symbol(sym.DECLARACION);
             }
           // fall through
-          case 83: break;
-          case 29:
+          case 86: break;
+          case 30:
             { ReporteT.agregar(yytext(), "MENOR_IGUAL", yyline + 1, yycolumn + 1);
                         return symbol(sym.MENOR_IGUAL);
             }
           // fall through
-          case 84: break;
-          case 30:
+          case 87: break;
+          case 31:
             { ReporteT.agregar(yytext(), "IGUAL_IGUAL", yyline + 1, yycolumn + 1);
                         return symbol(sym.IGUAL_IGUAL);
             }
           // fall through
-          case 85: break;
-          case 31:
+          case 88: break;
+          case 32:
             { ReporteT.agregar(yytext(), "MAYOR_IGUAL", yyline + 1, yycolumn + 1);
                         return symbol(sym.MAYOR_IGUAL);
             }
           // fall through
-          case 86: break;
-          case 32:
+          case 89: break;
+          case 33:
             { ReporteT.agregar(yytext(), "IF", yyline + 1, yycolumn + 1);
                         return symbol(sym.IF);
             }
           // fall through
-          case 87: break;
-          case 33:
+          case 90: break;
+          case 34:
             { ReporteT.agregar(yytext(), "OR", yyline + 1, yycolumn + 1);
                         return symbol(sym.OR);
             }
           // fall through
-          case 88: break;
-          case 34:
+          case 91: break;
+          case 35:
             { String texto = yytext();
                         texto = texto.substring(1, texto.length() - 1);
                         ReporteT.agregar(yytext(), "CARACTER", yyline + 1, yycolumn + 1);
                         return symbol(sym.CARACTER, texto);
             }
           // fall through
-          case 89: break;
-          case 35:
+          case 92: break;
+          case 36:
             { ReporteT.agregar(yytext(), "DECIMAL", yyline + 1, yycolumn + 1);
                         return symbol(sym.DECIMAL, Double.parseDouble(yytext()));
             }
           // fall through
-          case 90: break;
-          case 36:
+          case 93: break;
+          case 37:
             { ReporteT.agregar(yytext(), "FOR", yyline + 1, yycolumn + 1);
                         return symbol(sym.FOR);
             }
           // fall through
-          case 91: break;
-          case 37:
+          case 94: break;
+          case 38:
             { ReporteT.agregar(yytext(), "INT", yyline + 1, yycolumn + 1);
                         return symbol(sym.INT);
             }
           // fall through
-          case 92: break;
-          case 38:
+          case 95: break;
+          case 39:
             { ReporteT.agregar(yytext(), "NIL", yyline + 1, yycolumn + 1);
                         return symbol(sym.NIL);
             }
           // fall through
-          case 93: break;
-          case 39:
+          case 96: break;
+          case 40:
             { ReporteT.agregar(yytext(), "VAR", yyline + 1, yycolumn + 1);
                         return symbol(sym.VAR);
             }
           // fall through
-          case 94: break;
-          case 40:
+          case 97: break;
+          case 41:
             { ReporteT.agregar(yytext(), "BOOL", yyline + 1, yycolumn + 1);
                         return symbol(sym.BOOL);
             }
           // fall through
-          case 95: break;
-          case 41:
+          case 98: break;
+          case 42:
             { ReporteT.agregar(yytext(), "ELSE", yyline + 1, yycolumn + 1);
                         return symbol(sym.ELSE);
             }
           // fall through
-          case 96: break;
-          case 42:
+          case 99: break;
+          case 43:
             { ReporteT.agregar(yytext(), "FUNC", yyline + 1, yycolumn + 1);
                         return symbol(sym.FUNC);
             }
           // fall through
-          case 97: break;
-          case 43:
+          case 100: break;
+          case 44:
             { ReporteT.agregar(yytext(), "MAIN", yyline + 1, yycolumn + 1);
                         return symbol(sym.MAIN);
             }
           // fall through
-          case 98: break;
-          case 44:
+          case 101: break;
+          case 45:
             { ReporteT.agregar(yytext(), "RUNE", yyline + 1, yycolumn + 1);
                         return symbol(sym.RUNE);
             }
           // fall through
-          case 99: break;
-          case 45:
+          case 102: break;
+          case 46:
             { ReporteT.agregar(yytext(), "TRUE", yyline + 1, yycolumn + 1);
                         return symbol(sym.TRUE);
             }
           // fall through
-          case 100: break;
-          case 46:
+          case 103: break;
+          case 47:
             { ReporteT.agregar(yytext(), "BREAK", yyline + 1, yycolumn + 1);
                         return symbol(sym.BREAK);
             }
           // fall through
-          case 101: break;
-          case 47:
+          case 104: break;
+          case 48:
             { ReporteT.agregar(yytext(), "FALSE", yyline + 1, yycolumn + 1);
                         return symbol(sym.FALSE);
             }
           // fall through
-          case 102: break;
-          case 48:
+          case 105: break;
+          case 49:
+            { ReporteT.agregar(yytext(), "RETURN", yyline + 1, yycolumn + 1);
+                        return symbol(sym.RETURN);
+            }
+          // fall through
+          case 106: break;
+          case 50:
             { ReporteT.agregar(yytext(), "STRING", yyline + 1, yycolumn + 1);
                         return symbol(sym.STRING);
             }
           // fall through
-          case 103: break;
-          case 49:
+          case 107: break;
+          case 51:
             { ReporteT.agregar(yytext(), "DOTSTRING", yyline + 1, yycolumn + 1);
                                 return symbol(sym.DOTSTRING);
             }
           // fall through
-          case 104: break;
-          case 50:
+          case 108: break;
+          case 52:
             { ReporteT.agregar(yytext(), "FLOAT64", yyline + 1, yycolumn + 1);
                         return symbol(sym.FLOAT64);
             }
           // fall through
-          case 105: break;
-          case 51:
+          case 109: break;
+          case 53:
             { ReporteT.agregar(yytext(), "CONTINUE", yyline + 1, yycolumn + 1);
                         return symbol(sym.CONTINUE);
             }
           // fall through
-          case 106: break;
-          case 52:
+          case 110: break;
+          case 54:
             { ReporteT.agregar(yytext(), "PRINTLN", yyline + 1, yycolumn + 1);
                                 return symbol(sym.PRINTLN);
             }
           // fall through
-          case 107: break;
-          case 53:
+          case 111: break;
+          case 55:
             { ReporteT.agregar(yytext(), "ATOI", yyline + 1, yycolumn + 1);
                                 return symbol(sym.ATOI);
             }
           // fall through
-          case 108: break;
-          case 54:
+          case 112: break;
+          case 56:
             { ReporteT.agregar(yytext(), "TYPEOF", yyline + 1, yycolumn + 1);
                                 return symbol(sym.TYPEOF);
             }
           // fall through
-          case 109: break;
-          case 55:
+          case 113: break;
+          case 57:
             { ReporteT.agregar(yytext(), "PARSEFLOAT", yyline + 1, yycolumn + 1);
                                 return symbol(sym.PARSEFLOAT);
             }
           // fall through
-          case 110: break;
+          case 114: break;
           default:
             zzScanError(ZZ_NO_MATCH);
         }

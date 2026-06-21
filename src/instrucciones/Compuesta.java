@@ -43,7 +43,15 @@ public class Compuesta extends Instruccion {
 
         if (operador.equals("+")||operador.equals("++")) {
 
-           if (actual instanceof Integer) {
+             if (actual instanceof String) {
+            entorno.actualizar(
+                id,
+                String.valueOf(actual) + String.valueOf(nuevoValor)
+            );
+            return null;
+        }
+            
+            if (actual instanceof Integer) {
 
         if (nuevoValor instanceof Integer) {
 
@@ -83,7 +91,7 @@ public class Compuesta extends Instruccion {
     }
         }
 
-        if (operador.equals("-")||operador.equals("++")) {
+        if (operador.equals("-")||operador.equals("--")) {
 
              if (actual instanceof Integer) {
 

@@ -9,8 +9,10 @@ public class AccVariable extends Instruccion {
 
     private String id;
 
-    public AccVariable(String id) {
+    public AccVariable(String id, int linea, int columna) {
+        super(linea, columna);
         this.id = id;
+        
     }
 
     @Override
@@ -27,8 +29,8 @@ public class AccVariable extends Instruccion {
             ReporteE.agregarError(
                 "SEMANTICO",
                 "La variable '" + id + "' no existe",
-                0,
-                0
+                linea,
+                columna
             );
 
             return null;

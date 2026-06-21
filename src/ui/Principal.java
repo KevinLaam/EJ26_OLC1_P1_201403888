@@ -23,6 +23,7 @@ import java.awt.Color;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.Insets;
+import instrucciones.Funcion;
 
 public class Principal extends JFrame {
 
@@ -178,10 +179,27 @@ panelCentro.add(pestañasReportes);
 
             Entorno global = new Entorno();
 
+            //for (Instruccion ins : lista) {
+              //  ins.ejecutar(global);
+            //}
+            // Primera pasada: guardar funciones
             for (Instruccion ins : lista) {
                 ins.ejecutar(global);
             }
-            
+
+            // Buscar función main
+            Funcion main = global.buscarFuncion("main");
+
+            if (main == null) {
+                ReporteE.agregarError(
+                        "SEMANTICO",
+                        "No existe la funcion main",
+                        0,
+                        0
+                );
+            } else {
+                main.ejecutarFuncion(global, new LinkedList<Object>());
+            }
             
             
            // System.out.println("Cantidad errores: " + ReporteE.getErrores().size());

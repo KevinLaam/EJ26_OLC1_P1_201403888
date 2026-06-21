@@ -2,14 +2,17 @@ package expresiones;
 
 import ast.Instruccion;
 import entorno.Entorno;
+import reportes.ReporteE;
 
 public class Operacion extends Instruccion {
 
     private Object izquierda;
     private Object derecha;
     private String operador;
+    
 
-    public Operacion(Object izquierda, Object derecha, String operador) {
+    public Operacion(Object izquierda, Object derecha, String operador, int linea, int columna) {
+        super(linea, columna);
         this.izquierda = izquierda;
         this.derecha = derecha;
         this.operador = operador;
@@ -59,8 +62,16 @@ public class Operacion extends Instruccion {
 
             case "/":
                 if (convertirDouble(valDer) == 0) {
-                    System.out.println("Error semantico: division entre cero");
-                    return null;
+                    //System.out.println("Error semantico: division entre cero");
+                    //return null;
+                    //se agrega para la division en 0
+                    ReporteE.agregarError(
+                    "SEMANTICO",
+                    "No se puede dividir entre cero",
+                    linea,
+                    columna
+                );
+                return null;
                 }
 
                 if (valIzq instanceof Double || valDer instanceof Double) {
@@ -70,13 +81,38 @@ public class Operacion extends Instruccion {
                 if (valIzq instanceof Integer && valDer instanceof Integer) {
                     return (Integer) valIzq / (Integer) valDer;
                 }
-                break;
+                 ReporteE.agregarError(
+                    "SEMANTICO",
+                    "Operación inválida para división",
+                    linea,
+                    columna
+                );
+                return null;
+                
+               
 
             case "%":
+                if (valDer instanceof Integer && (Integer) valDer == 0) {
+                    ReporteE.agregarError(
+                        "SEMANTICO",
+                        "No se puede calcular el módulo por cero",
+                        linea,
+                        columna
+                    );
+                    return null;
+                }
+
                 if (valIzq instanceof Integer && valDer instanceof Integer) {
                     return (Integer) valIzq % (Integer) valDer;
                 }
-                break;
+
+                ReporteE.agregarError(
+                    "SEMANTICO",
+                    "Operación inválida para módulo",
+                    linea,
+                    columna
+                );
+                return null;
                 
             case "&&":
                 if (valIzq instanceof Boolean && valDer instanceof Boolean) {

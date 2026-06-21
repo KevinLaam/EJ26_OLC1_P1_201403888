@@ -35,6 +35,10 @@ public class Declaracion extends Instruccion {
             }
             //para variables sin valor inicial 
              if (valorFinal == null) {
+                 
+                if (valor != null) {
+                    return null;
+                }  
                 valorFinal = valorPorDefecto(tipo);
             }
         

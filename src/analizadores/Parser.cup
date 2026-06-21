@@ -15,6 +15,10 @@ import java_cup.runtime.Symbol;
 import reportes.ReporteE;
 import instrucciones.Compuesta;
 import instrucciones.Bloque;
+import instrucciones.Funcion;
+import instrucciones.Parametro;
+import instrucciones.Return;
+import expresiones.LlamadaFuncion;
 
 //Para errores 
 
@@ -44,7 +48,7 @@ parser code
 
 
 terminal FUNC, MAIN, VAR;
-terminal IF, ELSE, FOR, BREAK, CONTINUE;
+terminal IF, ELSE, FOR, BREAK, CONTINUE, RETURN;
 
 terminal INT, FLOAT64, STRING, BOOL, RUNE;
 terminal TRUE, FALSE, NIL;
@@ -67,8 +71,12 @@ terminal String CARACTER;
 terminal Integer ENTERO;
 terminal Double DECIMAL;
 
-non terminal LinkedList<Instruccion> inicio, funcion_main, instrucciones;
+non terminal LinkedList<Instruccion> inicio, funciones, instrucciones;
 non terminal Instruccion instruccion, declaracion, impresion;
+non terminal Funcion funcion;
+non terminal LinkedList<Parametro> parametros;
+non terminal Parametro parametro;
+non terminal LinkedList<Object> argumentos;
 non terminal Object expresion;
 non terminal String tipo;
 non terminal Instruccion if_instr;
@@ -89,13 +97,71 @@ precedence right UMENOS;
 
 start with inicio;
 
-inicio ::= funcion_main:fm
-        {: RESULT = fm; :}
+inicio ::= funciones:f
+        {: RESULT = f; :}
         ;
 
-funcion_main ::= FUNC MAIN PAR_A PAR_C LLAVE_A instrucciones:ins LLAVE_C
-              {: RESULT = ins; :}
-              ;
+funciones ::= funciones:lista funcion:f
+{:
+    lista.add(f);
+    RESULT = lista;
+:}
+| funcion:f
+{:
+    LinkedList<Instruccion> lista = new LinkedList<>();
+    lista.add(f);
+    RESULT = lista;
+:}
+;
+
+//funcion_main ::= FUNC MAIN PAR_A PAR_C LLAVE_A instrucciones:ins LLAVE_C
+//              {: RESULT = ins; :}
+//              ;
+
+funcion ::= FUNC:fx MAIN PAR_A PAR_C LLAVE_A instrucciones:ins LLAVE_C
+{:
+    RESULT = new Funcion("main",new LinkedList<Parametro>(),null,ins,
+        fxleft + 1,
+        fxright + 1
+    );
+:}
+| FUNC ID:id PAR_A PAR_C LLAVE_A instrucciones:ins LLAVE_C
+{:
+    RESULT = new Funcion(id,new LinkedList<Parametro>(),null,ins,
+        idleft + 1,
+        idright + 1
+    );
+:}
+| FUNC ID:id PAR_A PAR_C tipo:t LLAVE_A instrucciones:ins LLAVE_C
+{:
+    RESULT = new Funcion(id,new LinkedList<Parametro>(),t,ins,
+        idleft + 1,
+        idright + 1
+    );
+:}
+| FUNC ID:id PAR_A parametros:params PAR_C LLAVE_A instrucciones:ins LLAVE_C
+{:
+    RESULT = new Funcion(
+        id,
+        params,
+        null,
+        ins,
+        idleft + 1,
+        idright + 1
+    );
+:}
+| FUNC ID:id PAR_A parametros:params PAR_C tipo:t LLAVE_A instrucciones:ins LLAVE_C
+{:
+    RESULT = new Funcion(
+        id,
+        params,
+        t,
+        ins,
+        idleft + 1,
+        idright + 1
+    );
+:}
+;
 
 instrucciones ::= instrucciones:lista instruccion:ins
                 {:
@@ -131,8 +197,64 @@ instruccion ::= declaracion:d
                 {: RESULT = new Break(); :}
               | CONTINUE
                 {: RESULT = new Continue(); :}
+             | RETURN:rx expresion:e
+            {:
+                RESULT = new Return(e, rxleft + 1, rxright + 1);
+            :}
+            | ID:id PAR_A PAR_C
+            {:
+                RESULT = new LlamadaFuncion(
+                    id,
+                    new LinkedList<Object>(),
+                    idleft + 1,
+                    idright + 1
+                );
+            :}
+
+            | ID:id PAR_A argumentos:args PAR_C
+            {:
+                RESULT = new LlamadaFuncion(
+                    id,
+                    args,
+                    idleft + 1,
+                    idright + 1
+                );
+            :}
+            
               ;
 
+parametros ::= parametros:lista COMA parametro:p
+{:
+    lista.add(p);
+    RESULT = lista;
+:}
+| parametro:p
+{:
+    LinkedList<Parametro> lista = new LinkedList<>();
+    lista.add(p);
+    RESULT = lista;
+:}
+;
+
+parametro ::= ID:id tipo:t
+{:
+    RESULT = new Parametro(id, t);
+:}
+;
+
+
+argumentos ::= argumentos:lista COMA expresion:e
+{:
+    lista.add(e);
+    RESULT = lista;
+:}
+| expresion:e
+{:
+    LinkedList<Object> lista = new LinkedList<>();
+    lista.add(e);
+    RESULT = lista;
+:}
+;
 incremento ::= ID:id INCREMENTO
 {:
     RESULT = new Compuesta(id, 1, "+");
@@ -188,8 +310,8 @@ if_instr ::= IF:i  expresion:condicion
                     ReporteE.agregarError(
                         "SINTACTICO",
                         "Condición inválida dentro del if",
-                        linea,
-                        columna
+                        ileft + 1,
+                        iright + 1
                     );
 
                     RESULT = null;
@@ -244,7 +366,7 @@ declaracion ::= VAR ID:id tipo:t IGUAL expresion:e
               :}
                 | ID:id IGUAL expresion:e
               {:
-                  RESULT = new Asignacion(id, e);
+                  RESULT = new Asignacion(id, e, idleft + 1, idright + 1);
               :}
               | ID:id MAS_IGUAL expresion:e
               {:
@@ -257,17 +379,29 @@ declaracion ::= VAR ID:id tipo:t IGUAL expresion:e
               :}
 
                 ///produccion para error
-                | VAR ID:id tipo:t IGUAL error
-                {:
-                    ReporteE.agregarError(
-                        "SINTACTICO",
-                        "Se esperaba una expresión después del '=' en la declaración de '" + id + "'",
-                        idleft + 1,
-                        idright + 1
-                    );
+                
+                | VAR:v error tipo:t IGUAL expresion:e
+              {:
+                  ReporteE.agregarError(
+                      "SINTACTICO",
+                      "Identificador inválido en declaración",
+                      vleft + 1,
+                      vright + 1
+                  );
+                  RESULT = null;
+              :}
 
-                    RESULT = null;
-                :}
+              | VAR ID:id tipo:t IGUAL error
+              {:
+                  ReporteE.agregarError(
+                      "SINTACTICO",
+                      "Se esperaba una expresión después del '=' en la declaración de " + id,
+                      idleft + 1,
+                      idright + 1
+                  );
+                  RESULT = null;
+              :}
+                
                       ;
 
 actualizacion_for ::=
@@ -283,7 +417,7 @@ actualizacion_for ::=
 
                     | ID:id IGUAL expresion:valor
                       {:
-                          RESULT = new Asignacion(id, valor);
+                          RESULT = new Asignacion(id, valor,idleft + 1, idright + 1);
                       :}
                     | ID:id INCREMENTO
                         {: RESULT = new Compuesta(id, 1, "++"); :}
@@ -310,6 +444,11 @@ impresion ::= PRINTLN:p PAR_A lista_print:e PAR_C
                 RESULT = new Println(e);
             :}
             //para errores dentro de print.fm ejempo print(10+ )
+            
+            | PRINTLN:p PAR_A PAR_C
+            {:
+                RESULT = new Println(new LinkedList<Object>());
+            :}
             | PRINTLN:p PAR_A error PAR_C
             {:
                 ReporteE.agregarError(
@@ -338,72 +477,92 @@ lista_print ::=
       :}
 ;
 
-expresion ::= expresion:e1 MAS expresion:e2
-            {: RESULT = new Operacion(e1, e2, "+"); :}
+expresion ::= expresion:e1 MAS:ma expresion:e2
+            {: RESULT = new Operacion(e1, e2, "+",maleft + 1, maright + 1); :}
 
-            | expresion:e1 MENOS expresion:e2
-            {: RESULT = new Operacion(e1, e2, "-"); :}
+            | expresion:e1 MENOS:me expresion:e2
+            {: RESULT = new Operacion(e1, e2, "-",meleft + 1, meright + 1); :}
 
-            | expresion:e1 POR expresion:e2
-            {: RESULT = new Operacion(e1, e2, "*"); :}
+            | expresion:e1 POR:po expresion:e2
+            {: RESULT = new Operacion(e1, e2, "*",poleft + 1, poright + 1); :}
 
-            | expresion:e1 DIV expresion:e2
-            {: RESULT = new Operacion(e1, e2, "/"); :}
+            | expresion:e1 DIV:d expresion:e2
+            {: RESULT = new Operacion(e1, e2, "/",dleft + 1, dright + 1); :}
 
-            | expresion:e1 MOD expresion:e2
-            {: RESULT = new Operacion(e1, e2, "%"); :}
+            | expresion:e1 MOD:mod expresion:e2
+            {: RESULT = new Operacion(e1, e2, "%",modleft + 1, modright + 1); :}
             
-            | expresion:e1 MAYOR expresion:e2
-            {: RESULT = new Operacion(e1, e2, ">"); :}
+            | expresion:e1 MAYOR:may expresion:e2
+            {: RESULT = new Operacion(e1, e2, ">",mayleft + 1, mayright + 1); :}
 
-            | expresion:e1 MENOR expresion:e2
-            {: RESULT = new Operacion(e1, e2, "<"); :}
+            | expresion:e1 MENOR:men expresion:e2
+            {: RESULT = new Operacion(e1, e2, "<",menleft + 1, menright + 1); :}
 
-            | expresion:e1 MAYOR_IGUAL expresion:e2
-            {: RESULT = new Operacion(e1, e2, ">="); :}
+            | expresion:e1 MAYOR_IGUAL:mayi expresion:e2
+            {: RESULT = new Operacion(e1, e2, ">=",mayileft + 1, mayiright + 1); :}
 
-            | expresion:e1 MENOR_IGUAL expresion:e2
-            {: RESULT = new Operacion(e1, e2, "<="); :}
+            | expresion:e1 MENOR_IGUAL:meni expresion:e2
+            {: RESULT = new Operacion(e1, e2, "<=",menileft + 1, meniright + 1); :}
 
-            | expresion:e1 IGUAL_IGUAL expresion:e2
-            {: RESULT = new Operacion(e1, e2, "=="); :}
+            | expresion:e1 IGUAL_IGUAL:ii expresion:e2
+            {: RESULT = new Operacion(e1, e2, "==",iileft + 1, iiright + 1); :}
 
-            | expresion:e1 DIFERENTE expresion:e2
-            {: RESULT = new Operacion(e1, e2, "!="); :}
+            | expresion:e1 DIFERENTE:dif expresion:e2
+            {: RESULT = new Operacion(e1, e2, "!=",difleft + 1, difright + 1); :}
 
-            | expresion:e1 AND expresion:e2
-            {: RESULT = new Operacion(e1, e2, "&&"); :}
+            | expresion:e1 AND:an expresion:e2
+            {: RESULT = new Operacion(e1, e2, "&&",anleft + 1, anright + 1); :}
 
-            | expresion:e1 OR expresion:e2
-            {: RESULT = new Operacion(e1, e2, "||"); :}
+            | expresion:e1 OR:elor expresion:e2
+            {: RESULT = new Operacion(e1, e2, "||",elorleft + 1, elorright + 1); :}
 
-            | NOT expresion:e
-            {: RESULT = new Operacion(e, null, "!"); :}
+            | NOT:no expresion:e
+            {: RESULT = new Operacion(e, null, "!",noleft + 1, noright + 1); :}
             
-            | MENOS expresion:e
-            {: RESULT = new Operacion(0, e, "-"); :}
+            | MENOS:me expresion:e
+            {: RESULT = new Operacion(0, e, "-",meleft + 1, meright + 1); :}
             %prec UMENOS
             
             | PAR_A expresion:e PAR_C
             {: RESULT = e; :}
 
-            | ATOI PAR_A expresion:e PAR_C
+            | ATOI:at PAR_A expresion:e PAR_C
             {:
-                RESULT = new FuncionNativa("atoi", e);
+                RESULT = new FuncionNativa("atoi", e,atleft + 1, atright + 1);
             :}
 
-            | PARSEFLOAT PAR_A expresion:e COMA expresion:n PAR_C
+            | PARSEFLOAT:pars PAR_A expresion:e COMA expresion:n PAR_C
             {:
-                RESULT = new FuncionNativa("parsefloat", e);
+                RESULT = new FuncionNativa("parsefloat", e,parsleft + 1, parsright + 1);
             :}
             | PARSEFLOAT PAR_A expresion:e PAR_C
             {:
-                RESULT = new FuncionNativa("parsefloat", e);
+                RESULT = new FuncionNativa("parsefloat", e,parsleft + 1, parsright + 1);
             :}
 
             | TYPEOF PAR_A expresion:e PAR_C DOTSTRING PAR_A PAR_C
             {:
                 RESULT = new FuncionNativa("typeof", e);
+            :}
+
+            | ID:id PAR_A argumentos:args PAR_C
+            {:
+                RESULT = new LlamadaFuncion(
+                    id,
+                    args,
+                    idleft + 1,
+                    idright + 1
+                );
+            :}
+
+            | ID:id PAR_A PAR_C
+            {:
+                RESULT = new LlamadaFuncion(
+                    id,
+                    new LinkedList<Object>(),
+                    idleft + 1,
+                    idright + 1
+                );
             :}
 
             | ENTERO:e
@@ -428,7 +587,7 @@ expresion ::= expresion:e1 MAS expresion:e2
             {: RESULT = null; :}
 
             | ID:id
-            {: RESULT = new AccVariable(id); :}
+            {: RESULT = new AccVariable(id, idleft +1, idright +1); :}
 
             
             ;

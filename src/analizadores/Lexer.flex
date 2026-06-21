@@ -26,6 +26,7 @@ import reportes.ReporteT;
 /* ---------- EXPRESIONES REGULARES ---------- */
 
 LETRA       = [a-zA-Z_]
+ID_INVALIDO = [0-9]+[a-zA-Z_][a-zA-Z0-9_]*
 DIGITO      = [0-9]
 ID          = {LETRA}({LETRA}|{DIGITO})*
 
@@ -61,6 +62,10 @@ COMENTARIO_MULTI = "/*"([^*]|\*+[^*/])*\*+"/"
                         return symbol(sym.BREAK); }
 "continue"          { ReporteT.agregar(yytext(), "CONTINUE", yyline + 1, yycolumn + 1);
                         return symbol(sym.CONTINUE); }
+
+"return"            { ReporteT.agregar(yytext(), "RETURN", yyline + 1, yycolumn + 1);
+                        return symbol(sym.RETURN); 
+                    }
 
 "int"               { ReporteT.agregar(yytext(), "INT", yyline + 1, yycolumn + 1);
                         return symbol(sym.INT); }
@@ -162,6 +167,8 @@ COMENTARIO_MULTI = "/*"([^*]|\*+[^*/])*\*+"/"
                         return symbol(sym.PUNTO); }
 
 /* ---------- LITERALES ---------- */
+
+{ID_INVALIDO}       { ReporteE.agregarError("LEXICO","Identificador inválido: " + yytext(),yyline + 1,yycolumn + 1);}
 
 {DECIMAL}           { ReporteT.agregar(yytext(), "DECIMAL", yyline + 1, yycolumn + 1);
                         return symbol(sym.DECIMAL, Double.parseDouble(yytext())); }

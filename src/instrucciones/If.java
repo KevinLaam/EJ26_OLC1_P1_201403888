@@ -41,6 +41,10 @@ public class If extends Instruccion {
                     //ins.ejecutar(entorno);
                     Object resultado = ins.ejecutar(entornoIf);
 
+                    if (resultado instanceof ReturnValue) {
+                        return resultado;
+                    }
+
                     if ("break".equals(resultado) || "continue".equals(resultado)) {
                         return resultado;
                     }
@@ -56,6 +60,10 @@ public class If extends Instruccion {
                     if (ins != null) {
                         //ins.ejecutar(entorno);
                         Object resultado = ins.ejecutar(entornoElse);
+
+                        if (resultado instanceof ReturnValue) {
+                            return resultado;
+                        }
 
                         if ("break".equals(resultado) || "continue".equals(resultado)) {
                             return resultado;
