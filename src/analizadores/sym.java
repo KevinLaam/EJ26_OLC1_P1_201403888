@@ -8,63 +8,67 @@ package analizadores;
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
-  public static final int POR = 30;
-  public static final int ENTERO = 55;
-  public static final int DIFERENTE = 34;
+  public static final int POR = 33;
+  public static final int ENTERO = 59;
+  public static final int DIFERENTE = 37;
+  public static final int CASE = 12;
+  public static final int DOS_PUNTOS = 55;
   public static final int CONTINUE = 9;
-  public static final int DOTSTRING = 23;
-  public static final int INT = 11;
-  public static final int PRINTLN = 19;
-  public static final int LLAVE_C = 48;
-  public static final int LLAVE_A = 47;
+  public static final int DOTSTRING = 26;
+  public static final int INT = 14;
+  public static final int PRINTLN = 22;
+  public static final int LLAVE_C = 51;
+  public static final int LLAVE_A = 50;
   public static final int FOR = 7;
-  public static final int NOT = 43;
-  public static final int AND = 41;
-  public static final int IGUAL = 27;
-  public static final int PARSEFLOAT = 21;
-  public static final int CARACTER = 54;
-  public static final int TYPEOF = 22;
-  public static final int NIL = 18;
-  public static final int OR = 42;
-  public static final int BOOL = 14;
-  public static final int DIV = 31;
-  public static final int INCREMENTO = 39;
-  public static final int ATOI = 20;
-  public static final int UMENOS = 44;
-  public static final int MAS_IGUAL = 25;
+  public static final int NOT = 46;
+  public static final int AND = 44;
+  public static final int IGUAL = 30;
+  public static final int PARSEFLOAT = 24;
+  public static final int CARACTER = 58;
+  public static final int TYPEOF = 25;
+  public static final int NIL = 21;
+  public static final int OR = 45;
+  public static final int BOOL = 17;
+  public static final int DIV = 34;
+  public static final int INCREMENTO = 42;
+  public static final int ATOI = 23;
+  public static final int UMENOS = 47;
+  public static final int MAS_IGUAL = 28;
   public static final int MAIN = 3;
   public static final int IF = 5;
-  public static final int ID = 52;
-  public static final int PUNTO_COMA = 50;
-  public static final int IGUAL_IGUAL = 33;
-  public static final int DECIMAL = 56;
+  public static final int ID = 56;
+  public static final int PUNTO_COMA = 53;
+  public static final int IGUAL_IGUAL = 36;
+  public static final int DECIMAL = 60;
   public static final int EOF = 0;
   public static final int RETURN = 10;
-  public static final int TRUE = 16;
-  public static final int DECREMENTO = 40;
+  public static final int TRUE = 19;
+  public static final int DECREMENTO = 43;
   public static final int error = 1;
-  public static final int COMA = 49;
-  public static final int FLOAT64 = 12;
-  public static final int CADENA = 53;
-  public static final int MENOS = 29;
-  public static final int MENOR = 35;
-  public static final int PAR_C = 46;
-  public static final int MOD = 32;
-  public static final int PAR_A = 45;
+  public static final int COMA = 52;
+  public static final int FLOAT64 = 15;
+  public static final int CADENA = 57;
+  public static final int MENOS = 32;
+  public static final int MENOR = 38;
+  public static final int PAR_C = 49;
+  public static final int MOD = 35;
+  public static final int PAR_A = 48;
   public static final int BREAK = 8;
-  public static final int RUNE = 15;
-  public static final int MAYOR = 37;
-  public static final int DECLARACION = 24;
+  public static final int RUNE = 18;
+  public static final int SWITCH = 11;
+  public static final int MAYOR = 40;
+  public static final int DECLARACION = 27;
   public static final int ELSE = 6;
-  public static final int PUNTO = 51;
+  public static final int PUNTO = 54;
   public static final int FUNC = 2;
-  public static final int MAYOR_IGUAL = 38;
-  public static final int STRING = 13;
-  public static final int MENOR_IGUAL = 36;
-  public static final int FALSE = 17;
-  public static final int MENOS_IGUAL = 26;
+  public static final int MAYOR_IGUAL = 41;
+  public static final int DEFAULT = 13;
+  public static final int STRING = 16;
+  public static final int MENOR_IGUAL = 39;
+  public static final int FALSE = 20;
+  public static final int MENOS_IGUAL = 29;
   public static final int VAR = 4;
-  public static final int MAS = 28;
+  public static final int MAS = 31;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
@@ -77,6 +81,9 @@ public class sym {
   "BREAK",
   "CONTINUE",
   "RETURN",
+  "SWITCH",
+  "CASE",
+  "DEFAULT",
   "INT",
   "FLOAT64",
   "STRING",
@@ -118,6 +125,7 @@ public class sym {
   "COMA",
   "PUNTO_COMA",
   "PUNTO",
+  "DOS_PUNTOS",
   "ID",
   "CADENA",
   "CARACTER",

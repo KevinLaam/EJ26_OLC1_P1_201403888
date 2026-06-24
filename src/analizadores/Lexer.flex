@@ -63,6 +63,15 @@ COMENTARIO_MULTI = "/*"([^*]|\*+[^*/])*\*+"/"
 "continue"          { ReporteT.agregar(yytext(), "CONTINUE", yyline + 1, yycolumn + 1);
                         return symbol(sym.CONTINUE); }
 
+"switch"            {ReporteT.agregar(yytext(), "SWITCH", yyline + 1, yycolumn + 1);
+                        return symbol(sym.SWITCH);}
+
+"case"              {ReporteT.agregar(yytext(), "CASE", yyline + 1, yycolumn + 1);
+                        return symbol(sym.CASE);}
+
+"default"           {ReporteT.agregar(yytext(), "DEFAULT", yyline + 1, yycolumn + 1);
+                        return symbol(sym.DEFAULT);}
+
 "return"            { ReporteT.agregar(yytext(), "RETURN", yyline + 1, yycolumn + 1);
                         return symbol(sym.RETURN); 
                     }
@@ -165,6 +174,9 @@ COMENTARIO_MULTI = "/*"([^*]|\*+[^*/])*\*+"/"
                         return symbol(sym.PUNTO_COMA); }
 "."                 { ReporteT.agregar(yytext(), "PUNTO", yyline + 1, yycolumn + 1);
                         return symbol(sym.PUNTO); }
+
+":"                 {ReporteT.agregar(yytext(), "DOS_PUNTOS", yyline + 1, yycolumn + 1);
+                        return symbol(sym.DOS_PUNTOS);}
 
 /* ---------- LITERALES ---------- */
 

@@ -19,6 +19,8 @@ import instrucciones.Funcion;
 import instrucciones.Parametro;
 import instrucciones.Return;
 import expresiones.LlamadaFuncion;
+import instrucciones.CaseSwitch;
+import instrucciones.Switch;
 
 //Para errores 
 
@@ -49,6 +51,9 @@ parser code
 
 terminal FUNC, MAIN, VAR;
 terminal IF, ELSE, FOR, BREAK, CONTINUE, RETURN;
+terminal SWITCH;
+terminal CASE;
+terminal DEFAULT;
 
 terminal INT, FLOAT64, STRING, BOOL, RUNE;
 terminal TRUE, FALSE, NIL;
@@ -63,7 +68,7 @@ terminal AND, OR, NOT;
 terminal UMENOS;
 
 terminal PAR_A, PAR_C, LLAVE_A, LLAVE_C;
-terminal COMA, PUNTO_COMA, PUNTO;
+terminal COMA, PUNTO_COMA, PUNTO, DOS_PUNTOS;
 
 terminal String ID;
 terminal String CADENA;
@@ -85,6 +90,10 @@ non terminal Instruccion actualizacion_for;
 non terminal Instruccion incremento;
 non terminal Instruccion decremento;
 non terminal LinkedList<Object> lista_print;
+non terminal Switch switch_instr;
+non terminal CaseSwitch caso;
+non terminal LinkedList<CaseSwitch> lista_cases;
+non terminal LinkedList<Instruccion> default_case;
 
 precedence left OR;
 precedence left AND;
@@ -188,6 +197,9 @@ instruccion ::= declaracion:d
                 {: RESULT = i; :}
               | decremento:d
                 {: RESULT = d; :}
+                | switch_instr:s
+                     {: RESULT = s; :}
+
                //sirve para bloques
               | LLAVE_A instrucciones:l LLAVE_C
               {:
@@ -220,7 +232,6 @@ instruccion ::= declaracion:d
                     idright + 1
                 );
             :}
-            
               ;
 
 parametros ::= parametros:lista COMA parametro:p
@@ -316,9 +327,60 @@ if_instr ::= IF:i  expresion:condicion
 
                     RESULT = null;
                 :}
-          
-
            ;
+
+switch_instr ::=
+                SWITCH:sw expresion:e LLAVE_A
+                lista_cases:c
+                default_case:d
+                LLAVE_C
+                {:
+                    RESULT = new Switch(
+                        e,
+                        c,
+                        d,
+                        swleft + 1,
+                        swright + 1
+                    );
+                :}
+            ;
+
+lista_cases ::=
+                    lista_cases:l caso:c
+                    {:
+                          l.add(c);
+                          RESULT = l;
+                    :}
+                  |
+                    caso:c
+                    {:
+                          LinkedList<CaseSwitch> lista =
+                                  new LinkedList<>();
+
+                          lista.add(c);
+
+                          RESULT = lista;
+                    :}
+              ;
+
+caso ::=
+                    CASE expresion:e DOS_PUNTOS
+                    instrucciones:i
+                    {:
+                        RESULT =
+                                new CaseSwitch(
+                                        e,
+                                        i
+                                );
+                    :}
+                ;
+
+default_case ::=
+                    DEFAULT DOS_PUNTOS instrucciones:i
+                    {: RESULT = i; :}
+                    |
+                    {: RESULT = null; :}
+                ;
 
 for_instr ::=   FOR:f expresion:condicion
                 LLAVE_A instrucciones:ins LLAVE_C
